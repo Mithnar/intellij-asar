@@ -118,4 +118,8 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     fun testBranchAndJumpWithWidthSuffix(){
         doTest(true)
     }
+
+    fun testAsarVersionDirective() {
+        doTest(true)
+    }
 }

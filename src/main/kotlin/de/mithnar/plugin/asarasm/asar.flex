@@ -22,6 +22,10 @@ import de.mithnar.plugin.asarasm.psi.AsarTypes;
   }
 %}
 
+//Compatibility
+
+ASAR_VERSION = [0-9]+\.[0-9]+
+
 // Character classes
 
 IDENTIFIER_START = [A-Za-z_]
@@ -122,6 +126,10 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 
 {COMMENT}                              { return AsarTypes.COMMENT_TOKEN; }
 
+// Architecture
+
+{ASAR_VERSION}                          { return AsarTypes.ASAR_VERSION_TOKEN; }
+
 // Labels & constants
 
 {LABEL}                                { return AsarTypes.LABEL_TOKEN; }
@@ -174,17 +182,17 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 {SHIFT_LEFT}                           { return AsarTypes.SHIFT_LEFT_TOKEN; }
 {SHIFT_RIGHT}                          { return AsarTypes.SHIFT_RIGHT_TOKEN; }
 
-{EQ}                                    { return AsarTypes.EQ_TOKEN; }
-{NEQ}                                   { return AsarTypes.NEQ_TOKEN; }
-{LTE}                                   { return AsarTypes.LTE_TOKEN; }
-{GTE}                                   { return AsarTypes.GTE_TOKEN; }
-{LT}                                    { return AsarTypes.LT_TOKEN; }
-{GT}                                    { return AsarTypes.GT_TOKEN; }
+{EQ}                                   { return AsarTypes.EQ_TOKEN; }
+{NEQ}                                  { return AsarTypes.NEQ_TOKEN; }
+{LTE}                                  { return AsarTypes.LTE_TOKEN; }
+{GTE}                                  { return AsarTypes.GTE_TOKEN; }
+{LT}                                   { return AsarTypes.LT_TOKEN; }
+{GT}                                   { return AsarTypes.GT_TOKEN; }
 
 {ASSIGN}                               { return AsarTypes.ASSIGN_TOKEN; }
 {COLON}                                { return AsarTypes.COLON_TOKEN; }
 {COMMA}                                { return AsarTypes.COMMA_TOKEN; }
-{HASH_ASSIGN}                           { return AsarTypes.HASH_ASSIGN_TOKEN; }
+{HASH_ASSIGN}                          { return AsarTypes.HASH_ASSIGN_TOKEN; }
 {HASH}                                 { return AsarTypes.HASH_TOKEN; }
 {LPAREN}                               { return AsarTypes.LPAREN_TOKEN; }
 {RPAREN}                               { return AsarTypes.RPAREN_TOKEN; }

@@ -83,7 +83,8 @@ private expressionTarget ::= expression
 
 // Directives
 
-directive ::= dataDirective
+directive ::= asarDirective
+            | dataDirective
             | orgDirective
             | assertDirective
             | functionDefinition
@@ -118,6 +119,10 @@ directive ::= dataDirective
             | endifDirective
             | whileDirective
             | endwhileDirective
+
+// Compatibility
+
+asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN
 
 // Data & output
 
