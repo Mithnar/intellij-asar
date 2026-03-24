@@ -6,7 +6,7 @@ Asar File
         PsiWhiteSpace(' ')
         AsarOperandListImpl(OPERAND_LIST)
           AsarOperandImpl(OPERAND)
-            AsarLongIndirectIndexedOperandImpl(LONG_INDIRECT_INDEXED_OPERAND)
+            AsarLongIndirectIndexedModeImpl(LONG_INDIRECT_INDEXED_MODE)
               PsiElement(LBRACKET_TOKEN)('[')
               AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
                 PsiElement(NUMBER_TOKEN)('$10')

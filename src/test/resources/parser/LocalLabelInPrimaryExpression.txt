@@ -6,7 +6,7 @@ Asar File
         PsiWhiteSpace(' ')
         AsarOperandListImpl(OPERAND_LIST)
           AsarOperandImpl(OPERAND)
-            AsarIndexedOperandImpl(INDEXED_OPERAND)
+            AsarIndexedModeImpl(INDEXED_MODE)
               AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
                 AsarLocalLabelReferenceImpl(LOCAL_LABEL_REFERENCE)
                   PsiElement(LOCAL_LABEL_TOKEN)('..masks')
