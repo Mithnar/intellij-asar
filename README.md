@@ -6,11 +6,10 @@ This plugin is WIP, highlighting and syntax checking should work for common asar
 
 ## Installation
 
-1. Download the latest plugin `.zip` from [Releases](link-to-releases)
-2. Unzip the downloaded `.zip` file, there should be a `asar-asm-plugin-*.zip` file inside, this is the plugin. (Don't unzip it)
+1. Download the latest plugin `.zip` from [Releases](https://github.com/Mithnar/intellij-asar/releases)
 2. Open IntelliJ IDEA (only tested with IntelliJ IDEA, but should work with others)
 3. Go to **Settings -> Plugins -> Cogwheel (next to marketplace and installed)→ Install Plugin from Disk...**
-4. Select the `asar-asm-plugin-*.zip` file
+4. Select the downloaded `.zip` file
 5. Restart the IDE
 
 ## Getting Started
