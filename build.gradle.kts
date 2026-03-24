@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "de.mithnar"
-version = "1.0-SNAPSHOT"
+version = System.getenv("GITHUB_REF_NAME")?.removePrefix("v") ?: "0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -26,20 +26,28 @@ dependencies {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
 
     intellijPlatform {
-        intellijIdea("2025.2.4")
+        intellijIdea("2025.1")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
     }
 }
 
 intellijPlatform {
+    buildSearchableOptions = false
     pluginConfiguration {
         ideaVersion {
-            sinceBuild = "252.25557"
+            sinceBuild = "251"
+            untilBuild = provider { null }
         }
 
         changeNotes = """
             Initial version
         """.trimIndent()
+    }
+
+    pluginVerification {
+        ides {
+            recommended()
+        }
     }
 }
 
