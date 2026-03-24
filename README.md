@@ -26,6 +26,6 @@ This plugin is WIP, highlighting and syntax checking should work for common asar
 
 ## Feedback & Issues
 
-Found a bug or missing syntax? [Open an issue](link-to-issues) with:
+Found a bug or missing syntax? [Open an issue](https://github.com/Mithnar/intellij-asar/issues) with:
 - The code snippet that breaks (Red line for valid asm? Wrong highlighting color? Accepts invalid asm?)
 - Contributions are welcome
