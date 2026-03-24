@@ -5,7 +5,7 @@ n IntelliJ IDEA plugin for [Asar](https://github.com/RPGHacker/asar) the assembl
 This plugin is WIP, highlighting and syntax checking should work for common asar, but some asar features might not work (yet).
 
 ## Installation
-
+1. You can Download [IntelliJ Community Edition](https://www.jetbrains.com/idea/) for free
 1. Download the latest plugin `.zip` from [Releases](https://github.com/Mithnar/intellij-asar/releases)
 2. Open IntelliJ IDEA (only tested with IntelliJ IDEA, but should work with others)
 3. Go to **Settings -> Plugins -> Cogwheel (next to marketplace and installed)→ Install Plugin from Disk...**
