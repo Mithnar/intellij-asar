@@ -1,0 +1,13 @@
+Asar File
+  AsarLineImpl(LINE)
+    AsarItemImpl(ITEM)
+      AsarDirectiveImpl(DIRECTIVE)
+        AsarPrintDirectiveImpl(PRINT_DIRECTIVE)
+          PsiElement(IDENTIFIER_TOKEN)('print')
+          PsiWhiteSpace(' ')
+          AsarPrintArgumentImpl(PRINT_ARGUMENT)
+            PsiElement(STRING_TOKEN)('"MAIN "')
+          PsiElement(COMMA_TOKEN)(',')
+          AsarPrintArgumentImpl(PRINT_ARGUMENT)
+            AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
+              PsiElement(PC_TOKEN)('pc')

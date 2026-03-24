@@ -1,0 +1,45 @@
+<!-- Plugin Configuration File: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN, cannot be changed between the plugin versions. -->
+    <id>de.mithnar.asar-asm-plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-name -->
+    <name>Asar-ASM</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor url="https://www.mithnar.de">Mithnar</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+        ASAR is a an assembler for the SNES (65c816 architecture)
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+
+    <!-- Extensions defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Asar ASM"
+                  implementationClass="de.mithnar.plugin.asarasm.AsarFileType"
+                  fieldName="INSTANCE"
+                  language="AsarAsm"
+                  extensions="asm"/>
+        <lang.parserDefinition language="AsarAsm"
+                               implementationClass="de.mithnar.plugin.asarasm.parser.AsarParserDefinition"/>
+
+        <lang.syntaxHighlighterFactory language="AsarAsm"
+                                       implementationClass="de.mithnar.plugin.asarasm.AsarSyntaxHighlighterFactory"/>
+
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarMacroCallAnnotator"/>
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarLabelAnnotator"/>
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarDirectiveAnnotator"/>
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarAddressingModeAnnotator"/>
+
+        <lang.findUsagesProvider language="AsarAsm"
+                                 implementationClass="de.mithnar.plugin.asarasm.usage.AsarFindUsagesProvider"/>
+    </extensions>
+
+</idea-plugin>

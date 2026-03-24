@@ -1,0 +1,9 @@
+Asar File
+  AsarLineImpl(LINE)
+    AsarItemImpl(ITEM)
+      AsarBranchInstructionImpl(BRANCH_INSTRUCTION)
+        PsiElement(BRANCH_OPCODE_TOKEN)('bra')
+        PsiWhiteSpace(' ')
+        AsarBranchTargetImpl(BRANCH_TARGET)
+          AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
+            PsiElement(NUMBER_TOKEN)('$09')

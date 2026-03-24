@@ -1,0 +1,291 @@
+
+{
+  parserClass="de.mithnar.plugin.asarasm.parser.AsarParser"
+  parserUtilClass="de.mithnar.plugin.asarasm.parser.AsarParserUtil"
+  psiClassPrefix="Asar"
+  psiImplClassSuffix="Impl"
+  psiPackage="de.mithnar.plugin.asarasm.psi"
+  psiImplPackage="de.mithnar.plugin.asarasm.psi.impl"
+  elementTypeHolderClass="de.mithnar.plugin.asarasm.psi.AsarTypes"
+  elementTypeClass="de.mithnar.plugin.asarasm.psi.AsarElementType"
+  tokenTypeClass="de.mithnar.plugin.asarasm.psi.AsarTokenType"
+}
+
+// Top-level structure
+
+root ::= (NEWLINE_TOKEN | line)*
+
+line ::= item (COLON_TOKEN? item)* {recoverWhile=line_recover}
+
+private line_recover ::= !(
+    NEWLINE_TOKEN
+  | OPCODE_TOKEN | IMPLIED_OPCODE_TOKEN | BLOCK_MOVE_OPCODE_TOKEN
+  | BRANCH_OPCODE_TOKEN | JUMP_OPCODE_TOKEN
+  | LABEL_TOKEN | COMMENT_TOKEN | CONSTANT_TOKEN
+  | IDENTIFIER_TOKEN
+  | PLUS_TOKEN | MINUS_TOKEN | PERCENT_TOKEN
+  )
+
+item ::= labelDefinition
+       | localLabelDefinition
+       | anonymousLabelDefinition
+       | constantDefinition
+       | impliedInstruction
+       | blockMoveInstruction
+       | genericInstruction
+       | branchInstruction
+       | jumpInstruction
+       | directive
+       | macroCall
+       | COMMENT_TOKEN
+
+// Labels
+
+labelDefinition ::= LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"}
+localLabelDefinition ::= LOCAL_LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelDefinitionMixin"}
+localLabelReference  ::= LOCAL_LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelReferenceMixin"}
+anonymousLabelDefinition ::= plusLabel | minusLabel  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelDefinitionMixin"}
+anonymousLabelReference ::= plusLabel | minusLabel  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelReferenceMixin"}
+plusLabel       ::= PLUS_TOKEN+
+minusLabel     ::= MINUS_TOKEN+
+
+// Constants
+
+constantDefinition ::= CONSTANT_TOKEN (ASSIGN_TOKEN | HASH_ASSIGN_TOKEN) expression {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantDefinitionMixin"}
+constantReference  ::= CONSTANT_TOKEN {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantReferenceMixin"}
+
+// Instructions
+
+genericInstruction   ::= OPCODE_TOKEN operandList? {pin=1}
+impliedInstruction   ::= IMPLIED_OPCODE_TOKEN repeatCount? {pin=1}
+blockMoveInstruction ::= BLOCK_MOVE_OPCODE_TOKEN expression COMMA_TOKEN expression {pin=1}
+branchInstruction    ::= BRANCH_OPCODE_TOKEN branchTarget {pin=1}
+jumpInstruction      ::= JUMP_OPCODE_TOKEN jumpTarget {pin=1}
+
+repeatCount ::= HASH_TOKEN expression
+
+// Branch / jump targets
+
+branchTarget ::= symbolReferenceTarget
+               | anonymousLabelReference
+               | expressionTarget
+
+jumpTarget ::= indexedIndirectMode
+             | indirectIndexedOrIndirectMode
+             | longIndirectIndexedMode
+             | symbolReferenceTarget
+             | expressionTarget
+
+labelReference    ::= IDENTIFIER_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelReferenceMixin"}
+
+symbolReferenceTarget ::= labelReference | localLabelReference | constantReference
+private expressionTarget ::= expression
+
+// Directives
+
+directive ::= dataDirective
+            | orgDirective
+            | assertDirective
+            | functionDefinition
+            | skipDirective
+            | incbinDirective
+            | incsrcDirective
+            | printDirective
+            | romDirective
+            | headerDirective
+            | pushpcDirective
+            | pullpcDirective
+            | baseDirective
+            | warnpcDirective
+            | freespaceDirective
+            | tableDirective
+            | cleartableDirective
+            | protDirective
+            | autocleanDirective
+            | padbyteDirective
+            | padDirective
+            | fillbyteDirective
+            | fillDirective
+            | archDirective
+            | mathDirective
+            | checkDirective
+            | namespaceDirective
+            | macroDefinition
+            | endmacroDirective
+            | ifDirective
+            | elseifDirective
+            | elseDirective
+            | endifDirective
+            | whileDirective
+            | endwhileDirective
+
+// Data & output
+
+dataDirective   ::= <<kw_db>> dataArgumentList
+                  | <<kw_dw>> dataArgumentList
+                  | <<kw_dl>> dataArgumentList
+                  | <<kw_dd>> dataArgumentList
+orgDirective    ::= <<kw_org>> expression
+assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)?
+skipDirective   ::= <<kw_skip>> expression
+incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange?
+incsrcDirective ::= <<kw_incsrc>> STRING_TOKEN
+printDirective  ::= <<kw_print>> printArgumentList?
+                  | <<kw_error>> printArgumentList?
+
+private incbinRange ::= COLON_TOKEN expression COLON_TOKEN expression
+private dataArgumentList  ::= expression (COMMA_TOKEN expression)*
+private printArgumentList ::= printArgument (COMMA_TOKEN printArgument)*
+
+printArgument     ::= STRING_TOKEN | expression
+
+// ROM mapping & header
+
+romDirective    ::= <<kw_lorom>>
+                  | <<kw_hirom>>
+                  | <<kw_sa1rom>>
+                  | <<kw_norom>>
+                  | <<kw_exlorom>>
+                  | <<kw_exhirom>>
+headerDirective ::= <<kw_header>>
+                  | <<kw_noheader>>
+
+// PC stack & base
+
+pushpcDirective ::= <<kw_pushpc>>
+pullpcDirective ::= <<kw_pullpc>>
+baseDirective   ::= <<kw_base>> (<<kw_off>> | expression)
+
+// Address checks & freespace
+
+warnpcDirective    ::= <<kw_warnpc>> expression
+freespaceDirective ::= <<kw_freespace>> (IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*)?
+                     | <<kw_freedata>> (IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*)?
+
+// File includes & tables
+
+tableDirective      ::= <<kw_table>> STRING_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)?
+cleartableDirective ::= <<kw_cleartable>>
+
+// Protection & cleanup
+
+protDirective      ::= <<kw_prot>> expression (COMMA_TOKEN expression)*
+autocleanDirective ::= <<kw_autoclean>> expression
+
+// Padding & filling
+
+padbyteDirective  ::= <<kw_padbyte>> expression
+padDirective      ::= <<kw_pad>> expression
+fillbyteDirective ::= <<kw_fillbyte>> expression
+fillDirective     ::= <<kw_fill>> expression
+
+// Architecture & math mode
+
+archDirective  ::= <<kw_arch>> IDENTIFIER_TOKEN
+mathDirective  ::= <<kw_math>> IDENTIFIER_TOKEN IDENTIFIER_TOKEN
+checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression
+
+// Namespace
+
+namespaceDirective ::= <<kw_namespace>> (namespaceName namespaceName?)?
+private namespaceName ::= IDENTIFIER_TOKEN | MACRO_PARAM_TOKEN
+
+// Conditional assembly
+
+ifDirective     ::= <<kw_if>> expression
+elseifDirective ::= <<kw_elseif>> expression
+elseDirective   ::= <<kw_else>>
+endifDirective  ::= <<kw_endif>>
+
+// Loops
+
+whileDirective    ::= <<kw_while>> expression
+endwhileDirective ::= <<kw_endwhile>>
+
+// Function Definition
+
+functionDefinition ::= <<kw_function>> IDENTIFIER_TOKEN LPAREN_TOKEN functionParamNames? RPAREN_TOKEN ASSIGN_TOKEN expression
+private functionParamNames ::= IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*
+
+// Function Call
+
+functionCall ::= IDENTIFIER_TOKEN LPAREN_TOKEN functionArgList? RPAREN_TOKEN
+private functionArgList ::= expression (COMMA_TOKEN expression)*
+
+// Macro definition
+
+macroDefinition   ::= <<kw_macro>> IDENTIFIER_TOKEN macroParamList?
+endmacroDirective ::= <<kw_endmacro>>
+
+macroParamList    ::= LPAREN_TOKEN macroParamNames? RPAREN_TOKEN
+private macroParamNames   ::= IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*
+
+// Macro calls
+
+macroCall         ::= PERCENT_TOKEN IDENTIFIER_TOKEN macroArguments?
+macroArguments    ::= LPAREN_TOKEN macroArgumentList? RPAREN_TOKEN
+private macroArgumentList ::= macroArgument (COMMA_TOKEN macroArgument)*
+macroArgument     ::= STRING_TOKEN | expression
+
+// Operands & addressing modes
+
+operandList ::= operand (COMMA_TOKEN operand)*
+
+operand ::= hashOperand                         // #expr <- (immediate mode or repeat shorthand)
+            | stackRelativeIndirectIndexedMode  // (expr,S),Y
+            | indexedIndirectMode               // (expr,X)
+            | indirectIndexedOrIndirectMode     // (expr),Y  or  (expr)
+            | longIndirectIndexedMode           // [expr],Y  or  [expr]
+            | indexedMode                       // expr,X / expr,Y
+            | accumulatorOperand                // A
+            | stackOperand                      // S
+            | expression                        // bare expression
+
+hashOperand                     ::= HASH_TOKEN expression
+stackRelativeIndirectIndexedMode ::= LPAREN_TOKEN expression COMMA_TOKEN STACK_TOKEN RPAREN_TOKEN COMMA_TOKEN Y_TOKEN
+indexedIndirectMode          ::= LPAREN_TOKEN expression COMMA_TOKEN indexRegister RPAREN_TOKEN
+indirectIndexedOrIndirectMode ::= LPAREN_TOKEN expression RPAREN_TOKEN [COMMA_TOKEN indexRegister]
+longIndirectIndexedMode      ::= LBRACKET_TOKEN expression RBRACKET_TOKEN [COMMA_TOKEN indexRegister]
+indexedMode                  ::= expression COMMA_TOKEN indexRegister
+accumulatorOperand              ::= A_TOKEN
+stackOperand                    ::= STACK_TOKEN
+
+indexRegister ::= X_TOKEN | Y_TOKEN | STACK_TOKEN
+
+// Expressions (precedence lowest to highest)
+
+private expression               ::= logicalOrExpression
+private logicalOrExpression      ::= logicalAndExpression (LOGICAL_OR_TOKEN logicalAndExpression)*
+private logicalAndExpression     ::= comparisonExpression (LOGICAL_AND_TOKEN comparisonExpression)*
+private comparisonExpression     ::= orExpression (comparisonOp orExpression)*
+private orExpression             ::= xorExpression(PIPE_TOKEN xorExpression)*
+private xorExpression            ::= andExpression (CARET_TOKEN andExpression)*
+private andExpression            ::= additiveExpression (AMPERSAND_TOKEN additiveExpression)*
+private additiveExpression       ::= multiplicativeExpression (addOp multiplicativeExpression)*
+private multiplicativeExpression ::= shiftExpression (mulOp shiftExpression)*
+private shiftExpression          ::= prefixExpression (shiftOp prefixExpression)*
+private prefixExpression         ::= prefixOperator* primaryExpression+
+
+private comparisonOp ::= EQ_TOKEN | NEQ_TOKEN | LT_TOKEN | GT_TOKEN | LTE_TOKEN | GTE_TOKEN
+private shiftOp ::= SHIFT_LEFT_TOKEN | SHIFT_RIGHT_TOKEN
+private addOp ::= PLUS_TOKEN | MINUS_TOKEN
+private mulOp ::= STAR_TOKEN | SLASH_TOKEN | PERCENT_TOKEN
+
+prefixOperator ::= LT_TOKEN
+                 | GT_TOKEN
+                 | MINUS_TOKEN
+                 | TILDE_TOKEN
+
+primaryExpression ::= NUMBER_TOKEN
+                    | STRING_TOKEN
+                    | MACRO_PARAM_TOKEN
+                    | localLabelReference
+                    | functionCall
+                    | IDENTIFIER_TOKEN
+                    | CONSTANT_TOKEN
+                    | PC_TOKEN
+                    | A_TOKEN
+                    | X_TOKEN
+                    | Y_TOKEN
+                    | STACK_TOKEN
+                    | LPAREN_TOKEN expression RPAREN_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarPrimaryExpressionMixin"}

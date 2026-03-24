@@ -1,0 +1,13 @@
+Asar File
+  AsarLineImpl(LINE)
+    AsarItemImpl(ITEM)
+      AsarGenericInstructionImpl(GENERIC_INSTRUCTION)
+        PsiElement(OPCODE_TOKEN)('LDA')
+        PsiWhiteSpace(' ')
+        AsarOperandListImpl(OPERAND_LIST)
+          AsarOperandImpl(OPERAND)
+            AsarLongIndirectIndexedOperandImpl(LONG_INDIRECT_INDEXED_OPERAND)
+              PsiElement(LBRACKET_TOKEN)('[')
+              AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
+                PsiElement(NUMBER_TOKEN)('$10')
+              PsiElement(RBRACKET_TOKEN)(']')

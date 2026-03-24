@@ -1,0 +1,14 @@
+jsr.b foo1
+jsl.w foo2
+jml.l foo3
+jmp.b foo4
+bpl.w foo5
+bmi.l foo6
+bvc.b foo7
+bvs.w foo8
+bcc.l foo9
+bcs.b foo10
+bne.w foo11
+beq.l foo12
+bra.b foo13
+brl.w foo14

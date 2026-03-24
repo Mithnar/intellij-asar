@@ -1,0 +1,3 @@
+LDA.b #$FF
+AND.w $1234
+STA.l $7E0300

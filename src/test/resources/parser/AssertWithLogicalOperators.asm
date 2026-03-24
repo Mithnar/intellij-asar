@@ -1,0 +1,1 @@
+assert !foo >= $08 && !foo <= $0F, "Error Message"

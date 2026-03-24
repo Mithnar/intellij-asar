@@ -1,0 +1,1 @@
+function foo(ab,cd) = ((ab)|((cd>>8)&1))

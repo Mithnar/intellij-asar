@@ -1,0 +1,19 @@
+Asar File
+  AsarLineImpl(LINE)
+    AsarItemImpl(ITEM)
+      AsarGenericInstructionImpl(GENERIC_INSTRUCTION)
+        PsiElement(OPCODE_TOKEN)('LDA')
+    PsiWhiteSpace(' ')
+    PsiElement(HASH_TOKEN)('#')
+    PsiErrorElement:<prefix operator> or <primary expression> expected
+      <empty list>
+  PsiElement(NEWLINE_TOKEN)('\n')
+  AsarLineImpl(LINE)
+    AsarItemImpl(ITEM)
+      AsarGenericInstructionImpl(GENERIC_INSTRUCTION)
+        PsiElement(OPCODE_TOKEN)('STA')
+        PsiWhiteSpace(' ')
+        AsarOperandListImpl(OPERAND_LIST)
+          AsarOperandImpl(OPERAND)
+            AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
+              PsiElement(NUMBER_TOKEN)('$7E0000')
