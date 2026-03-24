@@ -94,19 +94,25 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_freespace(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "freespace")
 
         @JvmStatic
+        fun kw_freecode(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "freecode")
+
+        @JvmStatic
         fun kw_freedata(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "freedata")
+
+        @JvmStatic
+        fun kw_freespacebyte(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "freespacebyte")
+
+        @JvmStatic
+        fun kw_autoclean(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "autoclean")
+
+        @JvmStatic
+        fun kw_prot(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "prot")
 
         @JvmStatic
         fun kw_table(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "table")
 
         @JvmStatic
         fun kw_cleartable(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "cleartable")
-
-        @JvmStatic
-        fun kw_prot(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "prot")
-
-        @JvmStatic
-        fun kw_autoclean(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "autoclean")
 
         @JvmStatic
         fun kw_padbyte(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "padbyte")

@@ -122,4 +122,16 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     fun testAsarVersionDirective() {
         doTest(true)
     }
+
+    fun testFreespaceDirectives() {
+        doTest(true)
+    }
+
+    fun testAutocleanDirective() {
+        doTest(true)
+    }
+
+    fun testProtDirective() {
+        doTest(true)
+    }
 }

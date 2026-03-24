@@ -99,10 +99,11 @@ directive ::= asarDirective
             | baseDirective
             | warnpcDirective
             | freespaceDirective
+            | freespacebyteDirective
+            | autocleanDirective
+            | protDirective
             | tableDirective
             | cleartableDirective
-            | protDirective
-            | autocleanDirective
             | padbyteDirective
             | padDirective
             | fillbyteDirective
@@ -155,27 +156,34 @@ romDirective    ::= <<kw_lorom>>
 headerDirective ::= <<kw_header>>
                   | <<kw_noheader>>
 
-// PC stack & base
+// PC stack & adress checks
 
 pushpcDirective ::= <<kw_pushpc>>
 pullpcDirective ::= <<kw_pullpc>>
 baseDirective   ::= <<kw_base>> (<<kw_off>> | expression)
-
-// Address checks & freespace
-
 warnpcDirective    ::= <<kw_warnpc>> expression
-freespaceDirective ::= <<kw_freespace>> (IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*)?
-                     | <<kw_freedata>> (IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*)?
+
+// freespace
+
+freespaceDirective ::= <<kw_freespace>> freespaceParams
+                     | <<kw_freecode>> freespaceFlags?
+                     | <<kw_freedata>> freespaceFlags?
+
+//TODO: Implement specific flags in Annotator later
+private freespaceParams  ::= IDENTIFIER_TOKEN (COMMA_TOKEN freespaceFlag)*
+private freespaceFlags ::= freespaceFlag (COMMA_TOKEN freespaceFlag)*
+private freespaceFlag  ::= IDENTIFIER_TOKEN | NUMBER_TOKEN
+
+freespacebyteDirective ::= <<kw_freespacebyte>> expression
+autocleanDirective ::= <<kw_autoclean>> autocleanTarget
+autocleanTarget ::= autocleanJumpTarget | expression
+autocleanJumpTarget ::= JUMP_OPCODE_TOKEN expression | <<kw_dl>> expression
+protDirective ::= <<kw_prot>> expression (COMMA_TOKEN expression)*
 
 // File includes & tables
 
 tableDirective      ::= <<kw_table>> STRING_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)?
 cleartableDirective ::= <<kw_cleartable>>
-
-// Protection & cleanup
-
-protDirective      ::= <<kw_prot>> expression (COMMA_TOKEN expression)*
-autocleanDirective ::= <<kw_autoclean>> expression
 
 // Padding & filling
 
