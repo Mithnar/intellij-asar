@@ -24,8 +24,45 @@ This plugin is WIP, highlighting and syntax checking should work for common asar
 4. Find Usages (very wip)
 5. And probably more in the future.
 
+## Release History
+For the detailed release history, head over to the [Changelog](https://github.com/Mithnar/intellij-asar/blob/master/CHANGELOG.md)
+
+
+### Recent Releases:
+## [0.2.0] - 2026-03-26
+### Added
+- New directive: asar
+- New directive: namespace
+- New directive: freecode
+- New directive: freespacebyte
+
+### Changed
+- Improved Parsing on freespace, freedata, autoclean and prot directives
+- Split up the namespace directive into configuration and definition variants
+
+### Fixed
+- Fixed shadowing of constant and label references in expressions
+
+## [0.1.0] - 2026-03-24
+### Added
+- Syntax Checking
+- Syntax Highlighting
+- Labels: Jump to named Label
+- Labels: Show-Usage of named Label
+
+## Meta
+Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/master/LICENSE) for more information.
+
 ## Feedback & Issues
 
 Found a bug or missing syntax? [Open an issue](https://github.com/Mithnar/intellij-asar/issues) with:
 - The code snippet that breaks (Red line for valid asm? Wrong highlighting color? Accepts invalid asm?)
 - Contributions are welcome
+
+## Contributing
+
+1. Fork it (<https://github.com/Mithnar/intellij-asar/fork>)
+2. Create your feature branch (`git checkout -b feature/fooBar`)
+3. Commit your changes (`git commit -am 'Add some fooBar'`)
+4. Push to the branch (`git push origin feature/fooBar`)
+5. Create a new Pull Request
