@@ -257,14 +257,14 @@ operand ::= hashOperand                         // #expr <- (immediate mode or r
             | stackOperand                      // S
             | expression                        // bare expression
 
-hashOperand                     ::= HASH_TOKEN expression
-stackRelativeIndirectIndexedMode ::= LPAREN_TOKEN expression COMMA_TOKEN STACK_TOKEN RPAREN_TOKEN COMMA_TOKEN Y_TOKEN
-indexedIndirectMode          ::= LPAREN_TOKEN expression COMMA_TOKEN indexRegister RPAREN_TOKEN
-indirectIndexedOrIndirectMode ::= LPAREN_TOKEN expression RPAREN_TOKEN [COMMA_TOKEN indexRegister]
-longIndirectIndexedMode      ::= LBRACKET_TOKEN expression RBRACKET_TOKEN [COMMA_TOKEN indexRegister]
-indexedMode                  ::= expression COMMA_TOKEN indexRegister
-accumulatorOperand              ::= A_TOKEN
-stackOperand                    ::= STACK_TOKEN
+hashOperand                         ::= HASH_TOKEN expression
+stackRelativeIndirectIndexedMode    ::= LPAREN_TOKEN expression COMMA_TOKEN STACK_TOKEN RPAREN_TOKEN COMMA_TOKEN Y_TOKEN
+indexedIndirectMode                 ::= LPAREN_TOKEN expression COMMA_TOKEN indexRegister RPAREN_TOKEN
+indirectIndexedOrIndirectMode       ::= LPAREN_TOKEN expression RPAREN_TOKEN [COMMA_TOKEN indexRegister]
+longIndirectIndexedMode             ::= LBRACKET_TOKEN expression RBRACKET_TOKEN [COMMA_TOKEN indexRegister]
+indexedMode                         ::= expression COMMA_TOKEN indexRegister
+accumulatorOperand                  ::= A_TOKEN
+stackOperand                        ::= STACK_TOKEN
 
 indexRegister ::= X_TOKEN | Y_TOKEN | STACK_TOKEN
 
@@ -274,13 +274,13 @@ private expression               ::= logicalOrExpression
 private logicalOrExpression      ::= logicalAndExpression (LOGICAL_OR_TOKEN logicalAndExpression)*
 private logicalAndExpression     ::= comparisonExpression (LOGICAL_AND_TOKEN comparisonExpression)*
 private comparisonExpression     ::= orExpression (comparisonOp orExpression)*
-private orExpression             ::= xorExpression(PIPE_TOKEN xorExpression)*
+private orExpression             ::= xorExpression (PIPE_TOKEN xorExpression)*
 private xorExpression            ::= andExpression (CARET_TOKEN andExpression)*
 private andExpression            ::= additiveExpression (AMPERSAND_TOKEN additiveExpression)*
 private additiveExpression       ::= multiplicativeExpression (addOp multiplicativeExpression)*
 private multiplicativeExpression ::= shiftExpression (mulOp shiftExpression)*
 private shiftExpression          ::= prefixExpression (shiftOp prefixExpression)*
-private prefixExpression         ::= prefixOperator* primaryExpression+
+private prefixExpression         ::= prefixOperator* primaryExpression
 
 private comparisonOp ::= EQ_TOKEN | NEQ_TOKEN | LT_TOKEN | GT_TOKEN | LTE_TOKEN | GTE_TOKEN
 private shiftOp ::= SHIFT_LEFT_TOKEN | SHIFT_RIGHT_TOKEN
@@ -297,8 +297,8 @@ primaryExpression ::= NUMBER_TOKEN
                     | MACRO_PARAM_TOKEN
                     | localLabelReference
                     | functionCall
-                    | IDENTIFIER_TOKEN
-                    | CONSTANT_TOKEN
+                    | labelReference
+                    | constantReference
                     | PC_TOKEN
                     | A_TOKEN
                     | X_TOKEN

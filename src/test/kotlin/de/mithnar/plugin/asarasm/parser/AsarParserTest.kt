@@ -59,10 +59,6 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testAnonymousLabelBranchForward() {
-        doTest(true)
-    }
-
     fun testBranchToLocalLabel() {
         doTest(true)
     }
@@ -136,6 +132,14 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     }
 
     fun testNamespacesAndLabels() {
+        doTest(true)
+    }
+
+    fun testAnonymousLabelDefVsRefAmbiguity() {
+        doTest(true)
+    }
+
+    fun testLabelAndConstantReferencesNotShadowed() {
         doTest(true)
     }
 }
