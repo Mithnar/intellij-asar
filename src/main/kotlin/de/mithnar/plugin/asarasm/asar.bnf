@@ -84,6 +84,8 @@ private expressionTarget ::= expression
 // Directives
 
 directive ::= asarDirective
+            | namespaceConfigurationDirective
+            | namespaceDirective
             | dataDirective
             | orgDirective
             | assertDirective
@@ -111,7 +113,6 @@ directive ::= asarDirective
             | archDirective
             | mathDirective
             | checkDirective
-            | namespaceDirective
             | macroDefinition
             | endmacroDirective
             | ifDirective
@@ -124,6 +125,8 @@ directive ::= asarDirective
 // Compatibility
 
 asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN
+namespaceConfigurationDirective ::= <<kw_namespace>> <<kw_nested>>  namespaceOnOff
+namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
 
 // Data & output
 
@@ -200,7 +203,7 @@ checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression
 
 // Namespace
 
-namespaceDirective ::= <<kw_namespace>> (namespaceName namespaceName?)?
+namespaceDirective ::= <<kw_namespace>> namespaceName
 private namespaceName ::= IDENTIFIER_TOKEN | MACRO_PARAM_TOKEN
 
 // Conditional assembly

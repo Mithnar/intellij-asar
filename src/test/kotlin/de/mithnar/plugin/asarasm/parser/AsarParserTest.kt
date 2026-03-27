@@ -134,4 +134,8 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     fun testProtDirective() {
         doTest(true)
     }
+
+    fun testNamespacesAndLabels() {
+        doTest(true)
+    }
 }

@@ -22,6 +22,18 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_asar(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "asar")
 
         @JvmStatic
+        fun kw_namespace(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "namespace")
+
+        @JvmStatic
+        fun kw_nested(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "nested")
+
+        @JvmStatic
+        fun kw_on(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "on")
+
+        @JvmStatic
+        fun kw_off(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "off")
+
+        @JvmStatic
         fun kw_db(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "db")
 
         @JvmStatic
@@ -85,9 +97,6 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_base(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "base")
 
         @JvmStatic
-        fun kw_off(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "off")
-
-        @JvmStatic
         fun kw_warnpc(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "warnpc")
 
         @JvmStatic
@@ -134,9 +143,6 @@ class AsarParserUtil : GeneratedParserUtilBase() {
 
         @JvmStatic
         fun kw_check(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "check")
-
-        @JvmStatic
-        fun kw_namespace(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "namespace")
 
         @JvmStatic
         fun kw_macro(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "macro")
