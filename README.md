@@ -25,7 +25,7 @@ This plugin is WIP, highlighting and syntax checking should work for common asar
 5. And probably more in the future.
 
 ## Release History
-For the detailed release history, head over to the [Changelog](https://github.com/Mithnar/intellij-asar/blob/master/CHANGELOG.md)
+For the detailed release history, head over to the [Changelog](https://github.com/Mithnar/intellij-asar/blob/main/CHANGELOG.md)
 
 
 ### Recent Releases:
@@ -51,7 +51,7 @@ For the detailed release history, head over to the [Changelog](https://github.co
 - Labels: Show-Usage of named Label
 
 ## Meta
-Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/master/LICENSE) for more information.
+Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/main/LICENSE) for more information.
 
 ## Feedback & Issues
 
