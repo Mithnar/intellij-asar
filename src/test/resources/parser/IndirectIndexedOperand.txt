@@ -13,4 +13,4 @@ Asar File
               PsiElement(RPAREN_TOKEN)(')')
               PsiElement(COMMA_TOKEN)(',')
               AsarIndexRegisterImpl(INDEX_REGISTER)
-                PsiElement(Y_TOKEN)('Y')
+                PsiElement(IDENTIFIER_TOKEN)('Y')

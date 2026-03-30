@@ -19,6 +19,21 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         // Boilerplate-y workaround for now until I have a better solution
         // For use in grammar for matching IdentifierTokens with specific (in this case directives) keywords
         @JvmStatic
+        fun kw_a(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "a")
+
+        @JvmStatic
+        fun kw_x(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "x")
+
+        @JvmStatic
+        fun kw_y(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "y")
+
+        @JvmStatic
+        fun kw_s(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "s")
+
+        @JvmStatic
+        fun kw_pc(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pc")
+
+        @JvmStatic
         fun kw_asar(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "asar")
 
         @JvmStatic

@@ -13,7 +13,7 @@ Asar File
               PsiElement(RBRACKET_TOKEN)(']')
               PsiElement(COMMA_TOKEN)(',')
               AsarIndexRegisterImpl(INDEX_REGISTER)
-                PsiElement(Y_TOKEN)('Y')
+                PsiElement(IDENTIFIER_TOKEN)('Y')
   PsiElement(NEWLINE_TOKEN)('\n')
   AsarLineImpl(LINE)
     AsarItemImpl(ITEM)

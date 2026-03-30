@@ -35,14 +35,15 @@ NOT_IDENT_OR_DOT_PART = [^A-Za-z0-9_.]
 
 // Composite tokens
 
-COMMENT     = ";"[^\n]*
-LABEL       = {IDENTIFIER_START}{IDENTIFIER_PART}*":"
-LOCAL_LABEL = "."+{IDENTIFIER_PART}+":"?
-CONSTANT    = "!"{IDENTIFIER_PART}+
-IDENTIFIER  = {IDENTIFIER_START}{IDENTIFIER_PART}*
-NUMBER      = \$[0-9A-Fa-f]+ | [0-9]+ | %[01]+
-MACRO_PARAM = "<"{IDENTIFIER_PART}+">"
-STRING      = \"([^\"\\]|\\.)*\"
+COMMENT                 = ";"[^\n]*
+LABEL                   = {IDENTIFIER_START}{IDENTIFIER_PART}*":"
+LOCAL_LABEL             = "."+{IDENTIFIER_PART}+":"?
+CONSTANT                = "!"{IDENTIFIER_PART}+
+IDENTIFIER              = {IDENTIFIER_START}{IDENTIFIER_PART}*
+NAMESPACED_IDENTIFIER   = {IDENTIFIER}("."{IDENTIFIER_PART}+)+
+NUMBER                  = \$[0-9A-Fa-f]+ | [0-9]+ | %[01]+
+MACRO_PARAM             = "<"{IDENTIFIER_PART}+">"
+STRING                  = \"([^\"\\]|\\.)*\"
 
 // Whitespace
 
@@ -82,14 +83,6 @@ PIPE        = "|"
 AMPERSAND   = "&"
 CARET       = "^"
 TILDE       = "~"
-
-// Registers
-
-PC         = "pc"
-STACK      = "s"
-REGISTER_A = "a"
-REGISTER_X = "x"
-REGISTER_Y = "y"
 
 // Opcodes
 
@@ -136,6 +129,7 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 {LOCAL_LABEL}                          { return AsarTypes.LOCAL_LABEL_TOKEN; }
 {CONSTANT}                             { return AsarTypes.CONSTANT_TOKEN; }
 {MACRO_PARAM}                          { return AsarTypes.MACRO_PARAM_TOKEN; }
+{NAMESPACED_IDENTIFIER}                { return AsarTypes.IDENTIFIER_TOKEN; }
 
 // Opcodes
 
@@ -153,19 +147,6 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 
 {JUMP_OPCODE} / {NOT_IDENT_OR_DOT_PART}              { return AsarTypes.JUMP_OPCODE_TOKEN; }
 {JUMP_OPCODE}                                 { if (isAtEnd()) return AsarTypes.JUMP_OPCODE_TOKEN; }
-
-// Registers
-
-{PC}         / {NOT_IDENT_PART}  { return AsarTypes.PC_TOKEN; }
-{PC}                             { if (isAtEnd()) return AsarTypes.PC_TOKEN; else return AsarTypes.IDENTIFIER_TOKEN; }
-{STACK}      / {NOT_IDENT_PART}  { return AsarTypes.STACK_TOKEN; }
-{STACK}                          { if (isAtEnd()) return AsarTypes.STACK_TOKEN; else return AsarTypes.IDENTIFIER_TOKEN; }
-{REGISTER_A} / {NOT_IDENT_PART}  { return AsarTypes.A_TOKEN; }
-{REGISTER_A}                     { if (isAtEnd()) return AsarTypes.A_TOKEN; else return AsarTypes.IDENTIFIER_TOKEN; }
-{REGISTER_X} / {NOT_IDENT_PART}  { return AsarTypes.X_TOKEN; }
-{REGISTER_X}                     { if (isAtEnd()) return AsarTypes.X_TOKEN; else return AsarTypes.IDENTIFIER_TOKEN; }
-{REGISTER_Y} / {NOT_IDENT_PART}  { return AsarTypes.Y_TOKEN; }
-{REGISTER_Y}                     { if (isAtEnd()) return AsarTypes.Y_TOKEN; else return AsarTypes.IDENTIFIER_TOKEN; }
 
 // Identifiers
 

@@ -44,11 +44,6 @@ class AsarSyntaxHighlighter : SyntaxHighlighterBase() {
 
             AsarTypes.MACRO_PARAM_TOKEN -> pack(REGISTER)
 
-            AsarTypes.PC_TOKEN,
-            AsarTypes.A_TOKEN,
-            AsarTypes.X_TOKEN,
-            AsarTypes.Y_TOKEN -> pack(REGISTER)
-
             AsarTypes.ASSIGN_TOKEN,
             AsarTypes.EQ_TOKEN,
             AsarTypes.NEQ_TOKEN,

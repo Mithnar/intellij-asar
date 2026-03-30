@@ -7,13 +7,16 @@ import de.mithnar.plugin.asarasm.psi.AsarOperand
 import de.mithnar.plugin.asarasm.psi.AsarTypes
 
 fun AsarIndexRegister.isX(): Boolean =
-    firstChild?.node?.elementType == AsarTypes.X_TOKEN
+    firstChild?.node?.elementType == AsarTypes.IDENTIFIER_TOKEN &&
+            firstChild?.text.equals("x", ignoreCase = true)
 
 fun AsarIndexRegister.isY(): Boolean =
-    firstChild?.node?.elementType == AsarTypes.Y_TOKEN
+    firstChild?.node?.elementType == AsarTypes.IDENTIFIER_TOKEN &&
+            firstChild?.text.equals("y", ignoreCase = true)
 
 fun AsarIndexRegister.isStack(): Boolean =
-    firstChild?.node?.elementType == AsarTypes.STACK_TOKEN
+    firstChild?.node?.elementType == AsarTypes.IDENTIFIER_TOKEN &&
+            firstChild?.text.equals("s", ignoreCase = true)
 
 fun AsarOperand.addressingMode(opcodeText: String): AddressingMode = when {
     hashOperand != null && opcodeText in REPEAT_OPCODES -> AddressingMode.REPEAT_COUNT

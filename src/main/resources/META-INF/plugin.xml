@@ -38,6 +38,7 @@
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarLabelAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarDirectiveAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarAddressingModeAnnotator"/>
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarRegisterAnnotator"/>
 
         <lang.findUsagesProvider language="AsarAsm"
                                  implementationClass="de.mithnar.plugin.asarasm.usage.AsarFindUsagesProvider"/>

@@ -41,11 +41,21 @@ item ::= labelDefinition
 
 // Labels
 
-labelDefinition ::= LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"}
-localLabelDefinition ::= LOCAL_LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelDefinitionMixin"}
-localLabelReference  ::= LOCAL_LABEL_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelReferenceMixin"}
-anonymousLabelDefinition ::= plusLabel | minusLabel  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelDefinitionMixin"}
-anonymousLabelReference ::= plusLabel | minusLabel  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelReferenceMixin"}
+labelDefinition ::= LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN  {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"
+}
+localLabelDefinition ::= LOCAL_LABEL_TOKEN  {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelDefinitionMixin"
+}
+localLabelReference  ::= LOCAL_LABEL_TOKEN  {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelReferenceMixin"
+}
+anonymousLabelDefinition ::= plusLabel | minusLabel  {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelDefinitionMixin"
+}
+anonymousLabelReference ::= plusLabel | minusLabel  {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelReferenceMixin"
+}
 plusLabel       ::= PLUS_TOKEN+
 minusLabel     ::= MINUS_TOKEN+
 
@@ -258,15 +268,15 @@ operand ::= hashOperand                         // #expr <- (immediate mode or r
             | expression                        // bare expression
 
 hashOperand                         ::= HASH_TOKEN expression
-stackRelativeIndirectIndexedMode    ::= LPAREN_TOKEN expression COMMA_TOKEN STACK_TOKEN RPAREN_TOKEN COMMA_TOKEN Y_TOKEN
+stackRelativeIndirectIndexedMode    ::= LPAREN_TOKEN expression COMMA_TOKEN <<kw_s>> RPAREN_TOKEN COMMA_TOKEN <<kw_y>>
 indexedIndirectMode                 ::= LPAREN_TOKEN expression COMMA_TOKEN indexRegister RPAREN_TOKEN
 indirectIndexedOrIndirectMode       ::= LPAREN_TOKEN expression RPAREN_TOKEN [COMMA_TOKEN indexRegister]
 longIndirectIndexedMode             ::= LBRACKET_TOKEN expression RBRACKET_TOKEN [COMMA_TOKEN indexRegister]
 indexedMode                         ::= expression COMMA_TOKEN indexRegister
-accumulatorOperand                  ::= A_TOKEN
-stackOperand                        ::= STACK_TOKEN
+accumulatorOperand                  ::= <<kw_a>>
+stackOperand                        ::= <<kw_s>>
 
-indexRegister ::= X_TOKEN | Y_TOKEN | STACK_TOKEN
+indexRegister ::= <<kw_x>> | <<kw_y>> | <<kw_s>>
 
 // Expressions (precedence lowest to highest)
 
@@ -292,16 +302,14 @@ prefixOperator ::= LT_TOKEN
                  | MINUS_TOKEN
                  | TILDE_TOKEN
 
+pcExpression ::= <<kw_pc>>
+
 primaryExpression ::= NUMBER_TOKEN
                     | STRING_TOKEN
                     | MACRO_PARAM_TOKEN
                     | localLabelReference
                     | functionCall
+                    | pcExpression
                     | labelReference
                     | constantReference
-                    | PC_TOKEN
-                    | A_TOKEN
-                    | X_TOKEN
-                    | Y_TOKEN
-                    | STACK_TOKEN
                     | LPAREN_TOKEN expression RPAREN_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarPrimaryExpressionMixin"}

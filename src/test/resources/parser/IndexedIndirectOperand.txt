@@ -12,5 +12,5 @@ Asar File
                 PsiElement(NUMBER_TOKEN)('$10')
               PsiElement(COMMA_TOKEN)(',')
               AsarIndexRegisterImpl(INDEX_REGISTER)
-                PsiElement(X_TOKEN)('X')
+                PsiElement(IDENTIFIER_TOKEN)('X')
               PsiElement(RPAREN_TOKEN)(')')

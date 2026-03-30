@@ -12,4 +12,4 @@ Asar File
                   PsiElement(LOCAL_LABEL_TOKEN)('..masks')
               PsiElement(COMMA_TOKEN)(',')
               AsarIndexRegisterImpl(INDEX_REGISTER)
-                PsiElement(X_TOKEN)('x')
+                PsiElement(IDENTIFIER_TOKEN)('x')
