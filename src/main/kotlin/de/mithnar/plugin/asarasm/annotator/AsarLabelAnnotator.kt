@@ -37,16 +37,25 @@ import de.mithnar.plugin.asarasm.psi.*
  *      PsiElement(IDENTIFIER_TOKEN)('MyTable') <- matching element
  *
  *  Grammar rule:
- *  primaryExpression ::= NUMBER_TOKEN | STRING_TOKEN | IDENTIFIER_TOKEN | CONSTANT_TOKEN | ...
+ *  primaryExpression ::= NUMBER_TOKEN
+ *                     | STRING_TOKEN
+ *                     | MACRO_PARAM_TOKEN
+ *                     | localLabelReference
+ *                     | functionCall
+ *                     | pcExpression
+ *                     | labelReference
+ *                     | constantReference
+ *                     | LPAREN_TOKEN expression RPAREN_TOKEN
  */
 class AsarLabelAnnotator : Annotator {
 
     override fun annotate(el: PsiElement, holder: AnnotationHolder) {
         val isLabelDefinition = el is AsarLabelDefinition || el is AsarLabelReference
+        val isLocalLabel = el is AsarLocalLabelDefinition || el is AsarLocalLabelReference
         val isAnonymousLabel = el is AsarAnonymousLabelDefinition || el is AsarAnonymousLabelReference
         val isSymbolReferenceTarget = el is AsarSymbolReferenceTarget
 
-        if (isLabelDefinition || isAnonymousLabel || isSymbolReferenceTarget || isLabelReferenceInOperand(el)) {
+        if (isLabelDefinition || isLocalLabel || isAnonymousLabel || isSymbolReferenceTarget || isLabelReferenceInOperand(el)) {
             return holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(el.textRange)
                 .textAttributes(AsarSyntaxHighlighter.LABEL)
@@ -56,15 +65,8 @@ class AsarLabelAnnotator : Annotator {
 
     // Case 4
     private fun isLabelReferenceInOperand(el: PsiElement): Boolean {
-        // Needs to be an identifier, but not one of the first three cases
+        // Needs to be an identifier
         if (el.node.elementType != AsarTypes.IDENTIFIER_TOKEN) return false
-        if (el is AsarLabelDefinition || el is AsarAnonymousLabelDefinition
-            || el is AsarAnonymousLabelReference || el is AsarSymbolReferenceTarget
-        ) return false
-
-        // If it's a macro it is not a label
-        val macroCall = PsiTreeUtil.getParentOfType(el, AsarMacroCall::class.java, false)
-        if (macroCall != null) return false
 
         // Needs to be part of a primary expression
         PsiTreeUtil.getParentOfType(el, AsarPrimaryExpression::class.java, false) ?: return false
