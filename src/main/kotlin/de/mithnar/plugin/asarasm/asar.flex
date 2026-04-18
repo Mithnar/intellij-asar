@@ -22,6 +22,10 @@ import de.mithnar.plugin.asarasm.psi.AsarTypes;
   }
 %}
 
+%xstate CONTINUATION_BACKSLASH
+%xstate CONTINUATION_COMMA
+%xstate COMMA_PENDING_CONTINUATION
+
 //Compatibility
 
 ASAR_VERSION = [0-9]+\.[0-9]+
@@ -153,6 +157,29 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 {IDENTIFIER}                           { return AsarTypes.IDENTIFIER_TOKEN; }
 {NUMBER}                               { return AsarTypes.NUMBER_TOKEN; }
 {STRING}                               { return AsarTypes.STRING_TOKEN; }
+
+// Multi-Line Support - must be placed before "," and "\"
+
+"\\" [ \t]* {NEWLINE}                  { yybegin(CONTINUATION_BACKSLASH); return TokenType.WHITE_SPACE; }
+{COMMA} / [ \t]* {NEWLINE}             { yybegin(COMMA_PENDING_CONTINUATION); return AsarTypes.COMMA_TOKEN; }
+
+<COMMA_PENDING_CONTINUATION> {
+    [ \t]* {NEWLINE}                   { yybegin(CONTINUATION_COMMA); return TokenType.WHITE_SPACE; }
+}
+
+<CONTINUATION_BACKSLASH> {
+    {WHITESPACE}                       { return TokenType.WHITE_SPACE; }
+    {COMMENT}                          { return AsarTypes.COMMENT_TOKEN; }
+    {NEWLINE}                          { /* skip blank continuation lines */ }
+    .                                  { yypushback(1); yybegin(YYINITIAL); }
+}
+
+<CONTINUATION_COMMA> {
+    {WHITESPACE}                       { return TokenType.WHITE_SPACE; }
+    {COMMENT}                          { return AsarTypes.COMMENT_TOKEN; }
+    {NEWLINE}                          { /* skip blank continuation lines */ }
+    .                                  { yypushback(1); yybegin(YYINITIAL); }
+}
 
 // Operators
 {PLUS}                                 { return AsarTypes.PLUS_TOKEN; }

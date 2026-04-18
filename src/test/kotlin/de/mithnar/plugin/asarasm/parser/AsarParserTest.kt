@@ -145,4 +145,8 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     fun testIncludeDirectives() {
         doTest(true)
     }
+
+    fun testMultiLineOperators() {
+        doTest(true)
+    }
 }
