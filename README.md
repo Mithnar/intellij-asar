@@ -29,6 +29,21 @@ For the detailed release history, head over to the [Changelog](https://github.co
 
 
 ### Recent Releases:
+## [0.3.0] - 2026-04-18
+### Added
+- New directive: include
+- New directive: includeonce
+- New directive: includefrom
+- Go-To file for incsrc & includefrom
+- Support for multiline operators "," and "\"
+
+### Changed
+- Parser improvements for better handling of labels and registers
+- Directives should now behave like opcodes and not show an error on an incomplete line
+
+### Fixed
+- incsrc directive now supports files without quotes if it is not a path or contains whitespaces
+
 ## [0.2.0] - 2026-03-26
 ### Added
 - New directive: asar
@@ -42,13 +57,6 @@ For the detailed release history, head over to the [Changelog](https://github.co
 
 ### Fixed
 - Fixed shadowing of constant and label references in expressions
-
-## [0.1.0] - 2026-03-24
-### Added
-- Syntax Checking
-- Syntax Highlighting
-- Labels: Jump to named Label
-- Labels: Show-Usage of named Label
 
 ## Meta
 Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/main/LICENSE) for more information.
@@ -66,3 +74,6 @@ Found a bug or missing syntax? [Open an issue](https://github.com/Mithnar/intell
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
+
+[0.3.0]: https://github.com/Mithnar/intellij-asar/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/Mithnar/intellij-asar/compare/v0.1...v0.2.0
