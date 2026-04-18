@@ -105,7 +105,6 @@ directive ::= asarDirective
             | incsrcDirective
             | includeDirective
             | includefromDirective
-            | includeonceDirective
             | printDirective
             | romDirective
             | headerDirective
@@ -137,8 +136,8 @@ directive ::= asarDirective
 
 // Compatibility
 
-asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN
-namespaceConfigurationDirective ::= <<kw_namespace>> <<kw_nested>>  namespaceOnOff
+asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN {pin=1}
+namespaceConfigurationDirective ::= <<kw_namespace>> <<kw_nested>>  namespaceOnOff {pin=2}
 namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
 
 // Data & output
@@ -146,23 +145,25 @@ namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
 dataDirective   ::= <<kw_db>> dataArgumentList
                   | <<kw_dw>> dataArgumentList
                   | <<kw_dl>> dataArgumentList
-                  | <<kw_dd>> dataArgumentList
-orgDirective    ::= <<kw_org>> expression
-assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)?
-skipDirective   ::= <<kw_skip>> expression
-incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange?
+                  | <<kw_dd>> dataArgumentList {pin(".*")=1}
+orgDirective    ::= <<kw_org>> expression {pin=1}
+assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)? {pin=1}
+skipDirective   ::= <<kw_skip>> expression {pin=1}
+incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange? {pin=1}
 
 incsrcDirective ::= <<kw_incsrc>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
+    pin=1
 }
 includefromDirective ::= <<kw_includefrom>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
+    pin=1
 }
 includeDirective ::= <<kw_include>> | <<kw_includeonce>>
 
 
 printDirective  ::= <<kw_print>> printArgumentList?
-                  | <<kw_error>> printArgumentList?
+                  | <<kw_error>> printArgumentList? {pin(".*")=1}
 
 private incbinRange ::= COLON_TOKEN expression COLON_TOKEN expression
 private dataArgumentList  ::= expression (COMMA_TOKEN expression)*
@@ -185,64 +186,64 @@ headerDirective ::= <<kw_header>>
 
 pushpcDirective ::= <<kw_pushpc>>
 pullpcDirective ::= <<kw_pullpc>>
-baseDirective   ::= <<kw_base>> (<<kw_off>> | expression)
-warnpcDirective    ::= <<kw_warnpc>> expression
+baseDirective   ::= <<kw_base>> (<<kw_off>> | expression) {pin=1}
+warnpcDirective    ::= <<kw_warnpc>> expression {pin=1}
 
 // freespace
 
 freespaceDirective ::= <<kw_freespace>> freespaceParams
                      | <<kw_freecode>> freespaceFlags?
-                     | <<kw_freedata>> freespaceFlags?
+                     | <<kw_freedata>> freespaceFlags? {pin(".*")=1}
 
 //TODO: Implement specific flags in Annotator later
 private freespaceParams  ::= IDENTIFIER_TOKEN (COMMA_TOKEN freespaceFlag)*
 private freespaceFlags ::= freespaceFlag (COMMA_TOKEN freespaceFlag)*
 private freespaceFlag  ::= IDENTIFIER_TOKEN | NUMBER_TOKEN
 
-freespacebyteDirective ::= <<kw_freespacebyte>> expression
-autocleanDirective ::= <<kw_autoclean>> autocleanTarget
+freespacebyteDirective ::= <<kw_freespacebyte>> expression {pin=1}
+autocleanDirective ::= <<kw_autoclean>> autocleanTarget {pin=1}
 autocleanTarget ::= autocleanJumpTarget | expression
 autocleanJumpTarget ::= JUMP_OPCODE_TOKEN expression | <<kw_dl>> expression
-protDirective ::= <<kw_prot>> expression (COMMA_TOKEN expression)*
+protDirective ::= <<kw_prot>> expression (COMMA_TOKEN expression)* {pin=1}
 
 // File includes & tables
 
-tableDirective      ::= <<kw_table>> STRING_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)?
+tableDirective      ::= <<kw_table>> STRING_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)? {pin=1}
 cleartableDirective ::= <<kw_cleartable>>
 
 // Padding & filling
 
-padbyteDirective  ::= <<kw_padbyte>> expression
-padDirective      ::= <<kw_pad>> expression
-fillbyteDirective ::= <<kw_fillbyte>> expression
-fillDirective     ::= <<kw_fill>> expression
+padbyteDirective  ::= <<kw_padbyte>> expression {pin=1}
+padDirective      ::= <<kw_pad>> expression {pin=1}
+fillbyteDirective ::= <<kw_fillbyte>> expression {pin=1}
+fillDirective     ::= <<kw_fill>> expression {pin=1}
 
 // Architecture & math mode
 
-archDirective  ::= <<kw_arch>> IDENTIFIER_TOKEN
-mathDirective  ::= <<kw_math>> IDENTIFIER_TOKEN IDENTIFIER_TOKEN
-checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression
+archDirective  ::= <<kw_arch>> IDENTIFIER_TOKEN {pin=1}
+mathDirective  ::= <<kw_math>> IDENTIFIER_TOKEN IDENTIFIER_TOKEN {pin=1}
+checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression {pin=1}
 
 // Namespace
 
-namespaceDirective ::= <<kw_namespace>> namespaceName
+namespaceDirective ::= <<kw_namespace>> namespaceName {pin=1}
 private namespaceName ::= IDENTIFIER_TOKEN | MACRO_PARAM_TOKEN
 
 // Conditional assembly
 
-ifDirective     ::= <<kw_if>> expression
-elseifDirective ::= <<kw_elseif>> expression
+ifDirective     ::= <<kw_if>> expression {pin=1}
+elseifDirective ::= <<kw_elseif>> expression {pin=1}
 elseDirective   ::= <<kw_else>>
 endifDirective  ::= <<kw_endif>>
 
 // Loops
 
-whileDirective    ::= <<kw_while>> expression
+whileDirective    ::= <<kw_while>> expression {pin=1}
 endwhileDirective ::= <<kw_endwhile>>
 
 // Function Definition
 
-functionDefinition ::= <<kw_function>> IDENTIFIER_TOKEN LPAREN_TOKEN functionParamNames? RPAREN_TOKEN ASSIGN_TOKEN expression
+functionDefinition ::= <<kw_function>> IDENTIFIER_TOKEN LPAREN_TOKEN functionParamNames? RPAREN_TOKEN ASSIGN_TOKEN expression {pin=1}
 private functionParamNames ::= IDENTIFIER_TOKEN (COMMA_TOKEN IDENTIFIER_TOKEN)*
 
 // Function Call
@@ -252,7 +253,7 @@ private functionArgList ::= expression (COMMA_TOKEN expression)*
 
 // Macro definition
 
-macroDefinition   ::= <<kw_macro>> IDENTIFIER_TOKEN macroParamList?
+macroDefinition   ::= <<kw_macro>> IDENTIFIER_TOKEN macroParamList? {pin=1}
 endmacroDirective ::= <<kw_endmacro>>
 
 macroParamList    ::= LPAREN_TOKEN macroParamNames? RPAREN_TOKEN
