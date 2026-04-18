@@ -103,6 +103,9 @@ directive ::= asarDirective
             | skipDirective
             | incbinDirective
             | incsrcDirective
+            | includeDirective
+            | includefromDirective
+            | includeonceDirective
             | printDirective
             | romDirective
             | headerDirective
@@ -148,7 +151,16 @@ orgDirective    ::= <<kw_org>> expression
 assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)?
 skipDirective   ::= <<kw_skip>> expression
 incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange?
-incsrcDirective ::= <<kw_incsrc>> STRING_TOKEN
+
+incsrcDirective ::= <<kw_incsrc>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
+}
+includefromDirective ::= <<kw_includefrom>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
+}
+includeDirective ::= <<kw_include>> | <<kw_includeonce>>
+
+
 printDirective  ::= <<kw_print>> printArgumentList?
                   | <<kw_error>> printArgumentList?
 

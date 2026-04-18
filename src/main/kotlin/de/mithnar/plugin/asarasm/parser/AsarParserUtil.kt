@@ -73,6 +73,15 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_incsrc(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "incsrc")
 
         @JvmStatic
+        fun kw_include(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "include")
+
+        @JvmStatic
+        fun kw_includeonce(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "includeonce")
+
+        @JvmStatic
+        fun kw_includefrom(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "includefrom")
+
+        @JvmStatic
         fun kw_print(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "print")
 
         @JvmStatic

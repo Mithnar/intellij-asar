@@ -1,7 +1,6 @@
 package de.mithnar.plugin.asarasm.parser
 
 import com.intellij.testFramework.ParsingTestCase
-import de.mithnar.plugin.asarasm.parser.AsarParserDefinition
 
 class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
 
@@ -95,23 +94,23 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testComplexConstantReassign(){
+    fun testComplexConstantReassign() {
         doTest(true)
     }
 
-    fun testConstantAssignFunction(){
+    fun testConstantAssignFunction() {
         doTest(true)
     }
 
-    fun testFunctionDefinition(){
+    fun testFunctionDefinition() {
         doTest(true)
     }
 
-    fun testBranchToExpression(){
+    fun testBranchToExpression() {
         doTest(true)
     }
 
-    fun testBranchAndJumpWithWidthSuffix(){
+    fun testBranchAndJumpWithWidthSuffix() {
         doTest(true)
     }
 
@@ -140,6 +139,10 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     }
 
     fun testLabelAndConstantReferencesNotShadowed() {
+        doTest(true)
+    }
+
+    fun testIncludeDirectives() {
         doTest(true)
     }
 }

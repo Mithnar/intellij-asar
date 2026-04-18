@@ -43,7 +43,7 @@ IDENTIFIER              = {IDENTIFIER_START}{IDENTIFIER_PART}*
 NAMESPACED_IDENTIFIER   = {IDENTIFIER}("."{IDENTIFIER_PART}+)+
 NUMBER                  = \$[0-9A-Fa-f]+ | [0-9]+ | %[01]+
 MACRO_PARAM             = "<"{IDENTIFIER_PART}+">"
-STRING                  = \"([^\"\\]|\\.)*\"
+STRING                  = \"([^\"\\\n]|\\.)*\"
 
 // Whitespace
 

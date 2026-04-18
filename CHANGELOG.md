@@ -5,7 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Nothing
+### Added
+- New directive: include
+- New directive: includeonce
+- New directive: includefrom
+- Go-To file for incsrc & includefrom
+
+### Changed
+- incsrc directive now supports files without quotes if it is not a path or contains whitespaces
 
 ## [0.2.0] - 2026-03-26
 ### Added
@@ -28,6 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Labels: Jump to named Label
 - Labels: Show-Usage of named Label
 
-[Unreleased]: https://github.com/Mithnar/intellij-asar/compare/0.2.0...HEAD
-[0.2.0]: https://github.com/Mithnar/intellij-asar/compare/0.1...0.2
-[0.1.0]: https://github.com/Mithnar/intellij-asar/releases/tag/0.1-RC1
+[Unreleased]: https://github.com/Mithnar/intellij-asar/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Mithnar/intellij-asar/compare/v0.1...v0.2.0
+[0.1.0]: https://github.com/Mithnar/intellij-asar/releases/tag/v0.1
