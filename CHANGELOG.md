@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New directive: includeonce
 - New directive: includefrom
 - Go-To file for incsrc & includefrom
-- Support for Multiline Operators "," and "\"
+- Support for multiline operators "," and "\"
+
+### Changed
+- Parser improvements for better handling of labels and registers
 
 ### Fixed
 - incsrc directive now supports files without quotes if it is not a path or contains whitespaces
