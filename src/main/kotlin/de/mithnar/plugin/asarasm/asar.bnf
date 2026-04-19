@@ -160,20 +160,20 @@ namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
 
 // Program Counter
 
-orgDirective                    ::= <<kw_org>> expression {pin=1}
-baseDirective                   ::= <<kw_base>> (<<kw_off>> | expression) {pin=1}
+orgDirective                    ::= <<kw_org>> snesAddress {pin=1}
+baseDirective                   ::= <<kw_base>> (<<kw_off>> | snesAddress) {pin=1}
 skipDirective                   ::= skipAlignDirective
-                                  | <<kw_skip>> expression {pin(".*")=1}
-private skipAlignDirective      ::= <<kw_skip>> <<kw_align>> expression (<<kw_offset>> expression)? {pin=2}
+                                  | <<kw_skip>> numBytes {pin(".*")=1}
+private skipAlignDirective      ::= <<kw_skip>> <<kw_align>> alignment (<<kw_offset>> offset)? {pin=2}
 bankDirective                   ::= <<kw_bank>> bankArgument {pin=1}
-dpbaseDirective                 ::= <<kw_dpbase>> expression {pin=1}
+dpbaseDirective                 ::= <<kw_dpbase>> snesAddress {pin=1}
 optimizeDirective               ::= <<kw_optimize>> optimizeArgument {pin=1}
 pushpcDirective                 ::= <<kw_pushpc>>
 pullpcDirective                 ::= <<kw_pullpc>>
 pushbaseDirective               ::= <<kw_pushbase>>
 pullbaseDirective               ::= <<kw_pullbase>>
-warnpcDirective                 ::= <<kw_warnpc>> expression {pin=1}
-private bankArgument            ::= <<kw_noassume>> | <<kw_auto>> | expression
+warnpcDirective                 ::= <<kw_warnpc>> snesAddress {pin=1}
+private bankArgument            ::= <<kw_noassume>> | <<kw_auto>> | dataBank
 private optimizeArgument        ::= <<kw_dp>> optimizeDpArgument
                                   | <<kw_address>> optimizeAddressArgument {pin(".*")=1}
 private optimizeDpArgument      ::= <<kw_none>> | <<kw_ram>> | <<kw_always>>
@@ -357,3 +357,8 @@ primaryExpression ::= number
 
 // Helper
 private number ::= NUMBER_HEX_TOKEN | NUMBER_DEC_TOKEN | NUMBER_BIN_TOKEN
+private snesAddress ::= NUMBER_HEX_TOKEN
+private numBytes ::= MINUS_TOKEN? NUMBER_DEC_TOKEN
+private alignment ::= number
+private offset ::= number
+private dataBank ::= NUMBER_HEX_TOKEN
