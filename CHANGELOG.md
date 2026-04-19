@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New directive: optimize (dp/address)
 - New directive: pushbase
 - New directive: pullbase
+- New directive: fullsa1rom
+- New directive: sfxrom
 
 ### Changed
 - Improved parsing: skip directive now supports align and offset keywords
+- Improved parsing: sa1rom now supports bank parameters
 
 ## [0.3.0] - 2026-04-18
 ### Added

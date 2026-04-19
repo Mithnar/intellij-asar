@@ -197,14 +197,18 @@ private printArgumentList ::= printArgument (COMMA_TOKEN printArgument)*
 
 printArgument     ::= STRING_TOKEN | expression
 
-// ROM mapping & header
+// header
 
 romDirective    ::= <<kw_lorom>>
                   | <<kw_hirom>>
-                  | <<kw_sa1rom>>
+                  | <<kw_sa1rom>> sa1romArgs?
+                  | <<kw_fullsa1rom>>
+                  | <<kw_sfxrom>>
                   | <<kw_norom>>
                   | <<kw_exlorom>>
-                  | <<kw_exhirom>>
+                  | <<kw_exhirom>> {pin(".*")=1}
+private sa1romArgs ::= NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN
+
 headerDirective ::= <<kw_header>>
                   | <<kw_noheader>>
 

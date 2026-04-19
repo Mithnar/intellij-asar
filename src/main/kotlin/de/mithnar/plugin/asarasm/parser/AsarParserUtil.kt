@@ -97,6 +97,12 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_sa1rom(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "sa1rom")
 
         @JvmStatic
+        fun kw_fullsa1rom(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "fullsa1rom")
+
+        @JvmStatic
+        fun kw_sfxrom(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "sfxrom")
+
+        @JvmStatic
         fun kw_norom(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "norom")
 
         @JvmStatic
