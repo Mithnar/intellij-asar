@@ -1,10 +1,15 @@
 package de.mithnar.plugin.asarasm.parser
 
+import com.intellij.psi.PsiFile
 import com.intellij.testFramework.ParsingTestCase
 
-class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
+class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
 
     override fun getTestDataPath(): String = "src/test/resources/parser"
+
+    override fun checkResult(targetDataName: String, file: PsiFile) {
+        checkResult(getTestDataPath() + "/expectation", targetDataName, file);
+    }
 
     fun testLongIndirectIndexed() {
         doTest(true)
