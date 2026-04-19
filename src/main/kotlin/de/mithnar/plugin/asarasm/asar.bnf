@@ -150,7 +150,7 @@ romDirective    ::= <<kw_lorom>>
                   | <<kw_exlorom>>
                   | <<kw_exhirom>> {pin(".*")=1}
 
-private sa1romArgs ::= number COMMA_TOKEN number COMMA_TOKEN number COMMA_TOKEN number
+private sa1romArgs ::= NUMBER_DEC_TOKEN COMMA_TOKEN NUMBER_DEC_TOKEN COMMA_TOKEN NUMBER_DEC_TOKEN COMMA_TOKEN NUMBER_DEC_TOKEN
 
 // Compatibility
 

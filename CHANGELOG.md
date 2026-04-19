@@ -16,8 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New directive: `sfxrom`
 
 ### Changed
-- Improved parsing: `skip` directive now supports align and offset keywords
-- Improved parsing: `sa1rom` now supports bank parameters
+- Improved lexing: Split `NUMBER_TOKEN` into `NUMBER_HEX_TOKEN`, `NUMBER_DEC_TOKEN` and `NUMBER_BIN_TOKEN`
+
+### Fixed
+- `skip` directive now supports align and offset keywords
+- `sa1rom` directive now supports bank parameters
 
 ## [0.3.0] - 2026-04-18
 ### Added
