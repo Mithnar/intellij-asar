@@ -149,4 +149,8 @@ class AsarParserTest : ParsingTestCase("", "asm", AsarParserDefinition()) {
     fun testMultiLineOperators() {
         doTest(true)
     }
+
+    fun testProgramCounterDirectives() {
+        doTest(true)
+    }
 }

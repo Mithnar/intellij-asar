@@ -98,9 +98,17 @@ directive ::= asarDirective
             | namespaceDirective
             | dataDirective
             | orgDirective
+            | baseDirective
+            | skipDirective
+            | bankDirective
+            | dpbaseDirective
+            | optimizeDirective
+            | pushpcDirective
+            | pullpcDirective
+            | pushbaseDirective
+            | pullbaseDirective
             | assertDirective
             | functionDefinition
-            | skipDirective
             | incbinDirective
             | incsrcDirective
             | includeDirective
@@ -108,9 +116,6 @@ directive ::= asarDirective
             | printDirective
             | romDirective
             | headerDirective
-            | pushpcDirective
-            | pullpcDirective
-            | baseDirective
             | warnpcDirective
             | freespaceDirective
             | freespacebyteDirective
@@ -146,9 +151,30 @@ dataDirective   ::= <<kw_db>> dataArgumentList
                   | <<kw_dw>> dataArgumentList
                   | <<kw_dl>> dataArgumentList
                   | <<kw_dd>> dataArgumentList {pin(".*")=1}
-orgDirective    ::= <<kw_org>> expression {pin=1}
+
+// Program Counter
+
+orgDirective                    ::= <<kw_org>> expression {pin=1}
+baseDirective                   ::= <<kw_base>> (<<kw_off>> | expression) {pin=1}
+skipDirective                   ::= skipAlignDirective
+                                  | <<kw_skip>> expression {pin(".*")=1}
+private skipAlignDirective      ::= <<kw_skip>> <<kw_align>> expression (<<kw_offset>> expression)? {pin=2}
+bankDirective                   ::= <<kw_bank>> bankArgument {pin=1}
+dpbaseDirective                 ::= <<kw_dpbase>> expression {pin=1}
+optimizeDirective               ::= <<kw_optimize>> optimizeArgument {pin=1}
+pushpcDirective                 ::= <<kw_pushpc>>
+pullpcDirective                 ::= <<kw_pullpc>>
+pushbaseDirective               ::= <<kw_pushbase>>
+pullbaseDirective               ::= <<kw_pullbase>>
+warnpcDirective                 ::= <<kw_warnpc>> expression {pin=1}
+private bankArgument            ::= <<kw_noassume>> | <<kw_auto>> | expression
+private optimizeArgument        ::= <<kw_dp>> optimizeDpArgument
+                                  | <<kw_address>> optimizeAddressArgument {pin(".*")=1}
+private optimizeDpArgument      ::= <<kw_none>> | <<kw_ram>> | <<kw_always>>
+private optimizeAddressArgument ::= <<kw_default>> | <<kw_ram>> | <<kw_mirrors>>
+
 assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)? {pin=1}
-skipDirective   ::= <<kw_skip>> expression {pin=1}
+
 incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange? {pin=1}
 
 incsrcDirective ::= <<kw_incsrc>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
@@ -182,12 +208,6 @@ romDirective    ::= <<kw_lorom>>
 headerDirective ::= <<kw_header>>
                   | <<kw_noheader>>
 
-// PC stack & adress checks
-
-pushpcDirective ::= <<kw_pushpc>>
-pullpcDirective ::= <<kw_pullpc>>
-baseDirective   ::= <<kw_base>> (<<kw_off>> | expression) {pin=1}
-warnpcDirective    ::= <<kw_warnpc>> expression {pin=1}
 
 // freespace
 

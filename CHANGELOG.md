@@ -5,7 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Nothing
+### Added
+- New directive: base
+- New directive: bank
+- New directive: dpbase
+- New directive: optimize (dp/address)
+- New directive: pushbase
+- New directive: pullbase
+
+### Changed
+- Improved parsing: skip directive now supports align and offset keywords
 
 ## [0.3.0] - 2026-04-18
 ### Added

@@ -118,6 +118,12 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_pullpc(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pullpc")
 
         @JvmStatic
+        fun kw_pushbase(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pushbase")
+
+        @JvmStatic
+        fun kw_pullbase(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pullbase")
+
+        @JvmStatic
         fun kw_base(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "base")
 
         @JvmStatic
@@ -197,5 +203,47 @@ class AsarParserUtil : GeneratedParserUtilBase() {
 
         @JvmStatic
         fun kw_skip(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "skip")
+
+        @JvmStatic
+        fun kw_align(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "align")
+
+        @JvmStatic
+        fun kw_offset(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "offset")
+
+        @JvmStatic
+        fun kw_bank(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "bank")
+
+        @JvmStatic
+        fun kw_noassume(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "noassume")
+
+        @JvmStatic
+        fun kw_auto(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "auto")
+
+        @JvmStatic
+        fun kw_dpbase(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "dpbase")
+
+        @JvmStatic
+        fun kw_optimize(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "optimize")
+
+        @JvmStatic
+        fun kw_dp(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "dp")
+
+        @JvmStatic
+        fun kw_address(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "address")
+
+        @JvmStatic
+        fun kw_none(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "none")
+
+        @JvmStatic
+        fun kw_ram(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "ram")
+
+        @JvmStatic
+        fun kw_always(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "always")
+
+        @JvmStatic
+        fun kw_default(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "default")
+
+        @JvmStatic
+        fun kw_mirrors(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "mirrors")
     }
 }
