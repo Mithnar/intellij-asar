@@ -166,4 +166,8 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
     fun testMappingModesDirectives() {
         doTest(true)
     }
+
+    fun testStructDefinitionAndReference() {
+        doTest(true)
+    }
 }

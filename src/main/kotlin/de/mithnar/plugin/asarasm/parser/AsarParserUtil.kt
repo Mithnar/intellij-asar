@@ -251,5 +251,11 @@ class AsarParserUtil : GeneratedParserUtilBase() {
 
         @JvmStatic
         fun kw_mirrors(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "mirrors")
+
+        @JvmStatic
+        fun kw_struct(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "struct")
+
+        @JvmStatic
+        fun kw_endstruct(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "endstruct")
     }
 }

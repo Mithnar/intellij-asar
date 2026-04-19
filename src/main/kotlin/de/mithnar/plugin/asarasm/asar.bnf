@@ -29,6 +29,7 @@ private line_recover ::= !(
 item ::= labelDefinition
        | localLabelDefinition
        | anonymousLabelDefinition
+       | structDefinition
        | constantDefinition
        | impliedInstruction
        | blockMoveInstruction
@@ -59,6 +60,11 @@ anonymousLabelReference ::= plusLabel | minusLabel  {
 plusLabel       ::= PLUS_TOKEN+
 minusLabel     ::= MINUS_TOKEN+
 
+structDefinition    ::= structStart structFields structEnd {pin=1}
+structStart         ::= <<kw_struct>> IDENTIFIER_TOKEN snesAddress NEWLINE_TOKEN
+structFields        ::= (localLabelDefinition <<kw_skip>> numBytes NEWLINE_TOKEN)*
+structEnd           ::= <<kw_endstruct>> (<<kw_align>> numBytes)?
+
 // Constants
 
 constantDefinition ::= CONSTANT_TOKEN (ASSIGN_TOKEN | HASH_ASSIGN_TOKEN) expression {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantDefinitionMixin"}
@@ -86,7 +92,9 @@ jumpTarget ::= indexedIndirectMode
              | symbolReferenceTarget
              | expressionTarget
 
-labelReference    ::= IDENTIFIER_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelReferenceMixin"}
+labelReference    ::= IDENTIFIER_TOKEN LBRACKET_TOKEN number RBRACKET_TOKEN LOCAL_LABEL_TOKEN
+                    | IDENTIFIER_TOKEN LOCAL_LABEL_TOKEN
+                    | IDENTIFIER_TOKEN {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelReferenceMixin"}
 
 symbolReferenceTarget ::= labelReference | localLabelReference | constantReference
 private expressionTarget ::= expression
