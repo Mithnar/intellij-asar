@@ -35,7 +35,7 @@ class AsarLexerTest {
 
     @Test
     fun testSimpleOpcode() {
-        assertTokens("LDA $00", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$00')")
+        assertTokens("LDA $00", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')")
     }
 
     @ParameterizedTest(name = "Opcode Smoke Test: {0}")
@@ -130,23 +130,23 @@ class AsarLexerTest {
         @JvmStatic
         fun tokenSequenceData(): List<Array<Any>> = listOf(
             // Basic
-            arrayOf("Simple Opcode", "LDA $00", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$00')"),
+            arrayOf("Simple Opcode", "LDA $00", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')"),
             arrayOf("Branch with Label", "BNE MyLabel", "BRANCH_OPCODE_TOKEN ('BNE')\nWHITE_SPACE (' ')\nIDENTIFIER_TOKEN ('MyLabel')"),
             arrayOf("Label Definition", "Main:", "LABEL_TOKEN ('Main:')"),
-            arrayOf("Immediate Addressing", "LDA #$0F", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_TOKEN ('$0F')"),
+            arrayOf("Immediate Addressing", "LDA #$0F", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_HEX_TOKEN ('$0F')"),
             arrayOf("Constant", "LDA !START_POS", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nCONSTANT_TOKEN ('!START_POS')"),
             arrayOf("Comment", "; hello comment", "COMMENT_TOKEN ('; hello comment')"),
 
             // Directives
             arrayOf("PushPullPc", "pushpc\npullpc", "IDENTIFIER_TOKEN ('pushpc')\nNEWLINE_TOKEN ('\\n')\nIDENTIFIER_TOKEN ('pullpc')"),
-            arrayOf("Base Directive", "base \$008000", "IDENTIFIER_TOKEN ('base')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('\$008000')"),
+            arrayOf("Base Directive", "base \$008000", "IDENTIFIER_TOKEN ('base')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('\$008000')"),
             arrayOf("Base Off", "base off", "IDENTIFIER_TOKEN ('base')\nWHITE_SPACE (' ')\nIDENTIFIER_TOKEN ('off')"),
             arrayOf("IfElseEndif", "if !flag\nelse\nendif", "IDENTIFIER_TOKEN ('if')\nWHITE_SPACE (' ')\nCONSTANT_TOKEN ('!flag')\nNEWLINE_TOKEN ('\\n')\nIDENTIFIER_TOKEN ('else')\nNEWLINE_TOKEN ('\\n')\nIDENTIFIER_TOKEN ('endif')"),
-            arrayOf("FillVsFillbyte", "fillbyte $00", "IDENTIFIER_TOKEN ('fillbyte')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$00')"),
-            arrayOf("PadVsPadbyte", "padbyte \$FF", "IDENTIFIER_TOKEN ('padbyte')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('\$FF')"),
-            arrayOf("WhileLoop", "while !counter > 0\nendwhile", "IDENTIFIER_TOKEN ('while')\nWHITE_SPACE (' ')\nCONSTANT_TOKEN ('!counter')\nWHITE_SPACE (' ')\nGT_TOKEN ('>')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('0')\nNEWLINE_TOKEN ('\\n')\nIDENTIFIER_TOKEN ('endwhile')"),
+            arrayOf("FillVsFillbyte", "fillbyte $00", "IDENTIFIER_TOKEN ('fillbyte')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')"),
+            arrayOf("PadVsPadbyte", "padbyte \$FF", "IDENTIFIER_TOKEN ('padbyte')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('\$FF')"),
+            arrayOf("WhileLoop", "while !counter > 0\nendwhile", "IDENTIFIER_TOKEN ('while')\nWHITE_SPACE (' ')\nCONSTANT_TOKEN ('!counter')\nWHITE_SPACE (' ')\nGT_TOKEN ('>')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('0')\nNEWLINE_TOKEN ('\\n')\nIDENTIFIER_TOKEN ('endwhile')"),
             arrayOf("Table as Identifier", "STA table,Y", "OPCODE_TOKEN ('STA')\nWHITE_SPACE (' ')\nIDENTIFIER_TOKEN ('table')\nCOMMA_TOKEN (',')\nIDENTIFIER_TOKEN ('Y')"),
-            arrayOf("Data directive with data", "db \$FF,$00", "IDENTIFIER_TOKEN ('db')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('\$FF')\nCOMMA_TOKEN (',')\nNUMBER_TOKEN ('$00')"),
+            arrayOf("Data directive with data", "db \$FF,$00", "IDENTIFIER_TOKEN ('db')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('\$FF')\nCOMMA_TOKEN (',')\nNUMBER_HEX_TOKEN ('$00')"),
 
             // Keyword boundary / EOF fallback
             arrayOf("Opcode at EOF", "NOP", "IMPLIED_OPCODE_TOKEN ('NOP')"),
@@ -158,8 +158,8 @@ class AsarLexerTest {
             arrayOf("Directive as Identifier Prefix", "organic", "IDENTIFIER_TOKEN ('organic')"),
 
             // Case insensitivity
-            arrayOf("Case Insensitive Opcode", "lda $00", "OPCODE_TOKEN ('lda')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$00')"),
-            arrayOf("Mixed Case Opcode", "Lda $00", "OPCODE_TOKEN ('Lda')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$00')"),
+            arrayOf("Case Insensitive Opcode", "lda $00", "OPCODE_TOKEN ('lda')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')"),
+            arrayOf("Mixed Case Opcode", "Lda $00", "OPCODE_TOKEN ('Lda')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')"),
             arrayOf("Case Insensitive Registers", "X Y A", "IDENTIFIER_TOKEN ('X')\nWHITE_SPACE (' ')\nIDENTIFIER_TOKEN ('Y')\nWHITE_SPACE (' ')\nIDENTIFIER_TOKEN ('A')"),
 
             // Registers vs Identifiers
@@ -172,13 +172,13 @@ class AsarLexerTest {
             arrayOf("Anonymous Backward Label", "BRA --", "BRANCH_OPCODE_TOKEN ('BRA')\nWHITE_SPACE (' ')\nMINUS_TOKEN ('-')\nMINUS_TOKEN ('-')"),
 
             // Addressing Mode Punctuation
-            arrayOf("Indirect Indexed Tokens", "LDA ($10),Y", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nLPAREN_TOKEN ('(')\nNUMBER_TOKEN ('$10')\nRPAREN_TOKEN (')')\nCOMMA_TOKEN (',')\nIDENTIFIER_TOKEN ('Y')"),
-            arrayOf("Long Indirect Indexed Tokens", "LDA [$10],Y", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nLBRACKET_TOKEN ('[')\nNUMBER_TOKEN ('$10')\nRBRACKET_TOKEN (']')\nCOMMA_TOKEN (',')\nIDENTIFIER_TOKEN ('Y')"),
+            arrayOf("Indirect Indexed Tokens", "LDA ($10),Y", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nLPAREN_TOKEN ('(')\nNUMBER_HEX_TOKEN ('$10')\nRPAREN_TOKEN (')')\nCOMMA_TOKEN (',')\nIDENTIFIER_TOKEN ('Y')"),
+            arrayOf("Long Indirect Indexed Tokens", "LDA [$10],Y", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nLBRACKET_TOKEN ('[')\nNUMBER_HEX_TOKEN ('$10')\nRBRACKET_TOKEN (']')\nCOMMA_TOKEN (',')\nIDENTIFIER_TOKEN ('Y')"),
 
             // Expressions with operators
-            arrayOf("Prefix Operators", "LDA #<~\$FF", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nLT_TOKEN ('<')\nTILDE_TOKEN ('~')\nNUMBER_TOKEN ('\$FF')"),
-            arrayOf("Complex Expression", "LDA #$7E0000+!offset*2", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_TOKEN ('$7E0000')\nPLUS_TOKEN ('+')\nCONSTANT_TOKEN ('!offset')\nSTAR_TOKEN ('*')\nNUMBER_TOKEN ('2')"),
-            arrayOf("Bitwise Operators", "LDA #\$FF&$0F|$80^$01", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_TOKEN ('\$FF')\nAMPERSAND_TOKEN ('&')\nNUMBER_TOKEN ('$0F')\nPIPE_TOKEN ('|')\nNUMBER_TOKEN ('$80')\nCARET_TOKEN ('^')\nNUMBER_TOKEN ('$01')"),
+            arrayOf("Prefix Operators", "LDA #<~\$FF", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nLT_TOKEN ('<')\nTILDE_TOKEN ('~')\nNUMBER_HEX_TOKEN ('\$FF')"),
+            arrayOf("Complex Expression", "LDA #$7E0000+!offset*2", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_HEX_TOKEN ('$7E0000')\nPLUS_TOKEN ('+')\nCONSTANT_TOKEN ('!offset')\nSTAR_TOKEN ('*')\nNUMBER_DEC_TOKEN ('2')"),
+            arrayOf("Bitwise Operators", "LDA #\$FF&$0F|$80^$01", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_HEX_TOKEN ('\$FF')\nAMPERSAND_TOKEN ('&')\nNUMBER_HEX_TOKEN ('$0F')\nPIPE_TOKEN ('|')\nNUMBER_HEX_TOKEN ('$80')\nCARET_TOKEN ('^')\nNUMBER_HEX_TOKEN ('$01')"),
 
             // Strings
             arrayOf("String with escapes", "\"hello \\\"world\\\"\"", "STRING_TOKEN ('\"hello \\\"world\\\"\"')"),
@@ -187,10 +187,10 @@ class AsarLexerTest {
             arrayOf("Macro call tokens", "%MyMacro()", "PERCENT_TOKEN ('%')\nIDENTIFIER_TOKEN ('MyMacro')\nLPAREN_TOKEN ('(')\nRPAREN_TOKEN (')')"),
 
             // Constant definition
-            arrayOf("Constant definition", "!myConst = $0F", "CONSTANT_TOKEN ('!myConst')\nWHITE_SPACE (' ')\nASSIGN_TOKEN ('=')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$0F')"),
+            arrayOf("Constant definition", "!myConst = $0F", "CONSTANT_TOKEN ('!myConst')\nWHITE_SPACE (' ')\nASSIGN_TOKEN ('=')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$0F')"),
 
             // Multiline / colon separator
-            arrayOf("Colon separated instructions", "LDA #$00 : STA $10", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_TOKEN ('$00')\nWHITE_SPACE (' ')\nCOLON_TOKEN (':')\nWHITE_SPACE (' ')\nOPCODE_TOKEN ('STA')\nWHITE_SPACE (' ')\nNUMBER_TOKEN ('$10')"),
+            arrayOf("Colon separated instructions", "LDA #$00 : STA $10", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nHASH_TOKEN ('#')\nNUMBER_HEX_TOKEN ('$00')\nWHITE_SPACE (' ')\nCOLON_TOKEN (':')\nWHITE_SPACE (' ')\nOPCODE_TOKEN ('STA')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$10')"),
             arrayOf("Newline is newline token", "NOP\nNOP", "IMPLIED_OPCODE_TOKEN ('NOP')\nNEWLINE_TOKEN ('\\n')\nIMPLIED_OPCODE_TOKEN ('NOP')"),
 
             // Bad characters

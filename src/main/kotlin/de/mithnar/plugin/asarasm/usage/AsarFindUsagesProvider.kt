@@ -21,7 +21,12 @@ class AsarFindUsagesProvider : FindUsagesProvider {
                 AsarTypes.CONSTANT_TOKEN
             ),
             TokenSet.create(AsarTypes.COMMENT_TOKEN),
-            TokenSet.create(AsarTypes.NUMBER_TOKEN, AsarTypes.STRING_TOKEN),
+            TokenSet.create(
+                AsarTypes.NUMBER_HEX_TOKEN,
+                AsarTypes.NUMBER_DEC_TOKEN,
+                AsarTypes.NUMBER_BIN_TOKEN,
+                AsarTypes.STRING_TOKEN
+            ),
         )
     }
 

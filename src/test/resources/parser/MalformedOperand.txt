@@ -16,4 +16,4 @@ Asar File
         AsarOperandListImpl(OPERAND_LIST)
           AsarOperandImpl(OPERAND)
             AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
-              PsiElement(NUMBER_TOKEN)('$7E0000')
+              PsiElement(NUMBER_HEX_TOKEN)('$7E0000')

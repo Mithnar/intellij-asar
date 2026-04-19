@@ -35,11 +35,16 @@ class AsarSyntaxHighlighter : SyntaxHighlighterBase() {
             AsarTypes.JUMP_OPCODE_TOKEN -> pack(OPCODE)
 
             AsarTypes.COMMENT_TOKEN -> pack(COMMENT)
+
             AsarTypes.LABEL_TOKEN,
             AsarTypes.LOCAL_LABEL_TOKEN -> pack(LABEL)
 
             AsarTypes.CONSTANT_TOKEN -> pack(CONSTANT)
-            AsarTypes.NUMBER_TOKEN -> pack(NUMBER)
+
+            AsarTypes.NUMBER_HEX_TOKEN,
+            AsarTypes.NUMBER_DEC_TOKEN,
+            AsarTypes.NUMBER_BIN_TOKEN -> pack(NUMBER)
+
             AsarTypes.STRING_TOKEN -> pack(STRING)
 
             AsarTypes.MACRO_PARAM_TOKEN -> pack(REGISTER)

@@ -9,7 +9,7 @@ Asar File
             AsarIndexedIndirectModeImpl(INDEXED_INDIRECT_MODE)
               PsiElement(LPAREN_TOKEN)('(')
               AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
-                PsiElement(NUMBER_TOKEN)('$10')
+                PsiElement(NUMBER_HEX_TOKEN)('$10')
               PsiElement(COMMA_TOKEN)(',')
               AsarIndexRegisterImpl(INDEX_REGISTER)
                 PsiElement(IDENTIFIER_TOKEN)('X')

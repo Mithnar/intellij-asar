@@ -9,5 +9,5 @@ Asar File
             AsarLongIndirectIndexedModeImpl(LONG_INDIRECT_INDEXED_MODE)
               PsiElement(LBRACKET_TOKEN)('[')
               AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
-                PsiElement(NUMBER_TOKEN)('$10')
+                PsiElement(NUMBER_HEX_TOKEN)('$10')
               PsiElement(RBRACKET_TOKEN)(']')

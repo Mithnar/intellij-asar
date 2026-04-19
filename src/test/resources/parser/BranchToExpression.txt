@@ -6,4 +6,4 @@ Asar File
         PsiWhiteSpace(' ')
         AsarBranchTargetImpl(BRANCH_TARGET)
           AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
-            PsiElement(NUMBER_TOKEN)('$09')
+            PsiElement(NUMBER_HEX_TOKEN)('$09')

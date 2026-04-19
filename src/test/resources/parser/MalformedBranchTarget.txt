@@ -16,4 +16,4 @@ Asar File
             AsarHashOperandImpl(HASH_OPERAND)
               PsiElement(HASH_TOKEN)('#')
               AsarPrimaryExpressionImpl(PRIMARY_EXPRESSION)
-                PsiElement(NUMBER_TOKEN)('$00')
+                PsiElement(NUMBER_HEX_TOKEN)('$00')

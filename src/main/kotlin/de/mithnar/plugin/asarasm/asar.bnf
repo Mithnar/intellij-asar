@@ -139,18 +139,24 @@ directive ::= asarDirective
             | whileDirective
             | endwhileDirective
 
+// Mapping Modes
+
+romDirective    ::= <<kw_lorom>>
+                  | <<kw_hirom>>
+                  | <<kw_sa1rom>> sa1romArgs?
+                  | <<kw_fullsa1rom>>
+                  | <<kw_sfxrom>>
+                  | <<kw_norom>>
+                  | <<kw_exlorom>>
+                  | <<kw_exhirom>> {pin(".*")=1}
+
+private sa1romArgs ::= number COMMA_TOKEN number COMMA_TOKEN number COMMA_TOKEN number
+
 // Compatibility
 
 asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN {pin=1}
 namespaceConfigurationDirective ::= <<kw_namespace>> <<kw_nested>>  namespaceOnOff {pin=2}
 namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
-
-// Data & output
-
-dataDirective   ::= <<kw_db>> dataArgumentList
-                  | <<kw_dw>> dataArgumentList
-                  | <<kw_dl>> dataArgumentList
-                  | <<kw_dd>> dataArgumentList {pin(".*")=1}
 
 // Program Counter
 
@@ -172,6 +178,14 @@ private optimizeArgument        ::= <<kw_dp>> optimizeDpArgument
                                   | <<kw_address>> optimizeAddressArgument {pin(".*")=1}
 private optimizeDpArgument      ::= <<kw_none>> | <<kw_ram>> | <<kw_always>>
 private optimizeAddressArgument ::= <<kw_default>> | <<kw_ram>> | <<kw_mirrors>>
+
+// Data & output
+
+dataDirective   ::= <<kw_db>> dataArgumentList
+                  | <<kw_dw>> dataArgumentList
+                  | <<kw_dl>> dataArgumentList
+                  | <<kw_dd>> dataArgumentList {pin(".*")=1}
+
 
 assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)? {pin=1}
 
@@ -199,16 +213,6 @@ printArgument     ::= STRING_TOKEN | expression
 
 // header
 
-romDirective    ::= <<kw_lorom>>
-                  | <<kw_hirom>>
-                  | <<kw_sa1rom>> sa1romArgs?
-                  | <<kw_fullsa1rom>>
-                  | <<kw_sfxrom>>
-                  | <<kw_norom>>
-                  | <<kw_exlorom>>
-                  | <<kw_exhirom>> {pin(".*")=1}
-private sa1romArgs ::= NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN COMMA_TOKEN NUMBER_TOKEN
-
 headerDirective ::= <<kw_header>>
                   | <<kw_noheader>>
 
@@ -222,7 +226,7 @@ freespaceDirective ::= <<kw_freespace>> freespaceParams
 //TODO: Implement specific flags in Annotator later
 private freespaceParams  ::= IDENTIFIER_TOKEN (COMMA_TOKEN freespaceFlag)*
 private freespaceFlags ::= freespaceFlag (COMMA_TOKEN freespaceFlag)*
-private freespaceFlag  ::= IDENTIFIER_TOKEN | NUMBER_TOKEN
+private freespaceFlag  ::= IDENTIFIER_TOKEN | number
 
 freespacebyteDirective ::= <<kw_freespacebyte>> expression {pin=1}
 autocleanDirective ::= <<kw_autoclean>> autocleanTarget {pin=1}
@@ -341,7 +345,7 @@ prefixOperator ::= LT_TOKEN
 
 pcExpression ::= <<kw_pc>>
 
-primaryExpression ::= NUMBER_TOKEN
+primaryExpression ::= number
                     | STRING_TOKEN
                     | MACRO_PARAM_TOKEN
                     | localLabelReference
@@ -350,3 +354,6 @@ primaryExpression ::= NUMBER_TOKEN
                     | labelReference
                     | constantReference
                     | LPAREN_TOKEN expression RPAREN_TOKEN  {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarPrimaryExpressionMixin"}
+
+// Helper
+private number ::= NUMBER_HEX_TOKEN | NUMBER_DEC_TOKEN | NUMBER_BIN_TOKEN

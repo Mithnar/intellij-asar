@@ -45,7 +45,9 @@ LOCAL_LABEL             = "."+{IDENTIFIER_PART}+":"?
 CONSTANT                = "!"{IDENTIFIER_PART}+
 IDENTIFIER              = {IDENTIFIER_START}{IDENTIFIER_PART}*
 NAMESPACED_IDENTIFIER   = {IDENTIFIER}("."{IDENTIFIER_PART}+)+
-NUMBER                  = \$[0-9A-Fa-f]+ | [0-9]+ | %[01]+
+NUMBER_HEX              = \$[0-9A-Fa-f]+
+NUMBER_DEC              = [0-9]+
+NUMBER_BIN              = %[01]+
 MACRO_PARAM             = "<"{IDENTIFIER_PART}+">"
 STRING                  = \"([^\"\\\n]|\\.)*\"
 
@@ -155,7 +157,9 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 // Identifiers
 
 {IDENTIFIER}                           { return AsarTypes.IDENTIFIER_TOKEN; }
-{NUMBER}                               { return AsarTypes.NUMBER_TOKEN; }
+{NUMBER_HEX}                           { return AsarTypes.NUMBER_HEX_TOKEN; }
+{NUMBER_DEC}                           { return AsarTypes.NUMBER_DEC_TOKEN; }
+{NUMBER_BIN}                           { return AsarTypes.NUMBER_BIN_TOKEN; }
 {STRING}                               { return AsarTypes.STRING_TOKEN; }
 
 // Multi-Line Support - must be placed before "," and "\"
