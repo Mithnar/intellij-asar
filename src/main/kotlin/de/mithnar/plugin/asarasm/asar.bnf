@@ -357,7 +357,7 @@ primaryExpression ::= number
 
 // Helper
 private number ::= NUMBER_HEX_TOKEN | NUMBER_DEC_TOKEN | NUMBER_BIN_TOKEN
-private snesAddress ::= NUMBER_HEX_TOKEN
+private snesAddress ::= expression
 private numBytes ::= MINUS_TOKEN? NUMBER_DEC_TOKEN
 private alignment ::= number
 private offset ::= number

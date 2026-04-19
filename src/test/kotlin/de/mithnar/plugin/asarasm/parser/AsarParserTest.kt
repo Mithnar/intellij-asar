@@ -11,6 +11,10 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
         checkResult(getTestDataPath() + "/expectation", targetDataName, file);
     }
 
+    fun testDeprecatedDirectives() {
+        doTest(true)
+    }
+
     fun testLongIndirectIndexed() {
         doTest(true)
     }

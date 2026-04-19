@@ -18,13 +18,13 @@ class AsarLabelAnnotatorTest : BasePlatformTestCase() {
     }
 
     fun testLabelDefinition() {
-        val code = "Foo:\n  LDA #\$00"
+        val code = "Foo:\n  LDA #$00"
         val keys = highlightedAttributeKeysAt(code, "Foo:")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }
 
     fun testLocalLabelDefinition() {
-        val code = "Foo:\n .Bar\n  LDA #\$00"
+        val code = "Foo:\n .Bar\n  LDA #$00"
         val keys = highlightedAttributeKeysAt(code, ".Bar")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }
@@ -48,25 +48,25 @@ class AsarLabelAnnotatorTest : BasePlatformTestCase() {
     }
 
     fun testAnonymousMinusLabelDefinition() {
-        val code = "-\n  LDA #\$01\n  BRA +"
+        val code = "-\n  LDA #$01\n  BRA +"
         val keys = highlightedAttributeKeysAt(code, "-")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }
 
     fun testAnonymousPlusPlusLabelDefinition() {
-        val code = "++\n  LDA #\$01\n  BRA --"
+        val code = "++\n  LDA #$01\n  BRA --"
         val keys = highlightedAttributeKeysAt(code, "++")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }
 
     fun testAnonymousMinusLabelReference() {
-        val code = "LDA #\$01\n  BRA -"
+        val code = "LDA #$01\n  BRA -"
         val keys = highlightedAttributeKeysAt(code, "-")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }
 
     fun testAnonymousPlusPlusLabelReference() {
-        val code = "LDA #\$01\n  BRA ++"
+        val code = "LDA #$01\n  BRA ++"
         val keys = highlightedAttributeKeysAt(code, "++")
         assertContainsElements(keys, AsarSyntaxHighlighter.LABEL.externalName)
     }

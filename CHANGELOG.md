@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Improved lexing: Split `NUMBER_TOKEN` into `NUMBER_HEX_TOKEN`, `NUMBER_DEC_TOKEN` and `NUMBER_BIN_TOKEN`
+- Create Deprecation & Quickfix for `warnpc`
 
 ### Fixed
 - `skip` directive now supports align and offset keywords

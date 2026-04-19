@@ -34,6 +34,13 @@
         <lang.syntaxHighlighterFactory language="AsarAsm"
                                        implementationClass="de.mithnar.plugin.asarasm.AsarSyntaxHighlighterFactory"/>
 
+        <localInspection language="AsarAsm"
+                         groupName="Asar"
+                         displayName="Used deprecated command"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="de.mithnar.plugin.asarasm.inspection.AsarDeprecatedDirectiveInspection"/>
+
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarMacroCallAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarLabelAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarDirectiveAnnotator"/>
