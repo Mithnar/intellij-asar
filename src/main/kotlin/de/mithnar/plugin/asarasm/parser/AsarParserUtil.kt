@@ -49,6 +49,15 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_off(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "off")
 
         @JvmStatic
+        fun kw_pushns(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pushns")
+
+        @JvmStatic
+        fun kw_pullns(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "pullns")
+
+        @JvmStatic
+        fun kw_global(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "global")
+
+        @JvmStatic
         fun kw_db(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "db")
 
         @JvmStatic

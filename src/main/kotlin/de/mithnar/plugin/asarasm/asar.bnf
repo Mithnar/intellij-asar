@@ -27,6 +27,7 @@ private line_recover ::= !(
   )
 
 item ::= labelDefinition
+       | globalLabelDefinition
        | localLabelDefinition
        | anonymousLabelDefinition
        | structDefinition
@@ -44,6 +45,10 @@ item ::= labelDefinition
 
 labelDefinition ::= LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"
+}
+globalLabelDefinition ::= <<kw_global>> HASH_TOKEN? (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN) {
+    pin=1
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarGlobalLabelDefinitionMixin"
 }
 localLabelDefinition ::= LOCAL_LABEL_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelDefinitionMixin"
@@ -104,6 +109,8 @@ private expressionTarget ::= expression
 directive ::= asarDirective
             | namespaceConfigurationDirective
             | namespaceDirective
+            | pushnsDirective
+            | pullnsDirective
             | dataDirective
             | orgDirective
             | baseDirective
@@ -165,6 +172,8 @@ private sa1romArgs ::= NUMBER_DEC_TOKEN COMMA_TOKEN NUMBER_DEC_TOKEN COMMA_TOKEN
 asarDirective ::= <<kw_asar>> ASAR_VERSION_TOKEN {pin=1}
 namespaceConfigurationDirective ::= <<kw_namespace>> <<kw_nested>>  namespaceOnOff {pin=2}
 namespaceOnOff ::=  <<kw_on>> | <<kw_off>>
+pushnsDirective ::= <<kw_pushns>>
+pullnsDirective ::= <<kw_pullns>>
 
 // Program Counter
 
@@ -262,8 +271,19 @@ checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression {pin=1}
 
 // Namespace
 
-namespaceDirective ::= <<kw_namespace>> namespaceName {pin=1}
-private namespaceName ::= IDENTIFIER_TOKEN | MACRO_PARAM_TOKEN
+namespaceDirective       ::= namespaceOffDirective | namespaceEnterDirective
+namespaceOffDirective    ::= <<kw_namespace>> <<kw_off>> {pin=2}
+namespaceEnterDirective  ::= <<kw_namespace>> namespaceName {
+    mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarNamespaceEnterDirectiveMixin"
+    pin=2
+}
+private namespaceName ::= IDENTIFIER_TOKEN
+                        | MACRO_PARAM_TOKEN
+                        | OPCODE_TOKEN
+                        | IMPLIED_OPCODE_TOKEN
+                        | BLOCK_MOVE_OPCODE_TOKEN
+                        | BRANCH_OPCODE_TOKEN
+                        | JUMP_OPCODE_TOKEN
 
 // Conditional assembly
 
