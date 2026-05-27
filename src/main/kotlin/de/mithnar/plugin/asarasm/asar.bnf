@@ -15,16 +15,9 @@
 
 root ::= (NEWLINE_TOKEN | line)*
 
-line ::= item (COLON_TOKEN? item)* {recoverWhile=line_recover}
+line ::= item (COLON_TOKEN? item)* {pin=1 recoverWhile=line_recover}
 
-private line_recover ::= !(
-    NEWLINE_TOKEN
-  | OPCODE_TOKEN | IMPLIED_OPCODE_TOKEN | BLOCK_MOVE_OPCODE_TOKEN
-  | BRANCH_OPCODE_TOKEN | JUMP_OPCODE_TOKEN
-  | LABEL_TOKEN | COMMENT_TOKEN | CONSTANT_TOKEN
-  | IDENTIFIER_TOKEN
-  | PLUS_TOKEN | MINUS_TOKEN | PERCENT_TOKEN
-  )
+private line_recover ::= !NEWLINE_TOKEN
 
 item ::= labelDefinition
        | globalLabelDefinition
@@ -72,8 +65,13 @@ structEnd           ::= <<kw_endstruct>> (<<kw_align>> numBytes)?
 
 // Constants
 
-constantDefinition ::= CONSTANT_TOKEN (ASSIGN_TOKEN | HASH_ASSIGN_TOKEN) expression {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantDefinitionMixin"}
+constantDefinition ::= CONSTANT_TOKEN constantAssignment expression {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantDefinitionMixin"}
 constantReference  ::= CONSTANT_TOKEN {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarConstantReferenceMixin"}
+private constantAssignment ::= ASSIGN_TOKEN
+                            | PLUS_ASSIGN_TOKEN
+                            | COLON_ASSIGN_TOKEN
+                            | HASH_ASSIGN_TOKEN
+                            | QUESTION_ASSIGN_TOKEN
 
 // Instructions
 

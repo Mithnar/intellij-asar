@@ -1,0 +1,11 @@
+!definefunction = bar(6,0)
+!define = 10
+!anotherdefine = !define+1
+!define = 10
+!define += 1
+!define = 10
+!define := !define+1
+!define = 10
+!anotherdefine #= !define+1
+!lastdefine ?= 10
+!lastdefine ?= 1

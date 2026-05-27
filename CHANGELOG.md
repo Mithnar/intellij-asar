@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New directive: `struct`
 - New directive: `pushns`
 - New directive: `pullns`
+- New Operators: `+=`, `:=`, `?=`
 - Global labels
 - Namespaced labels
 

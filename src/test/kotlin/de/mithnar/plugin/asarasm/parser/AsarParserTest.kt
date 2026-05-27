@@ -107,7 +107,7 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testConstantAssignFunction() {
+    fun testConstantAssign() {
         doTest(true)
     }
 

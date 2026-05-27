@@ -58,10 +58,14 @@ NEWLINE    = \r?\n
 
 // Operators
 
-ASSIGN      = "="
+ASSIGN          = "="
+PLUS_ASSIGN     = "+="
+COLON_ASSIGN    = ":="
+HASH_ASSIGN     = "#="
+QUESTION_ASSIGN = "?="
+
 COLON       = ":"
 COMMA       = ","
-HASH_ASSIGN = "#="
 HASH        = "#"
 LPAREN      = "("
 RPAREN      = ")"
@@ -202,9 +206,13 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 {GT}                                   { return AsarTypes.GT_TOKEN; }
 
 {ASSIGN}                               { return AsarTypes.ASSIGN_TOKEN; }
+{PLUS_ASSIGN}                          { return AsarTypes.PLUS_ASSIGN_TOKEN; }
+{COLON_ASSIGN}                         { return AsarTypes.COLON_ASSIGN_TOKEN; }
+{HASH_ASSIGN}                          { return AsarTypes.HASH_ASSIGN_TOKEN; }
+{QUESTION_ASSIGN}                      { return AsarTypes.QUESTION_ASSIGN_TOKEN; }
+
 {COLON}                                { return AsarTypes.COLON_TOKEN; }
 {COMMA}                                { return AsarTypes.COMMA_TOKEN; }
-{HASH_ASSIGN}                          { return AsarTypes.HASH_ASSIGN_TOKEN; }
 {HASH}                                 { return AsarTypes.HASH_TOKEN; }
 {LPAREN}                               { return AsarTypes.LPAREN_TOKEN; }
 {RPAREN}                               { return AsarTypes.RPAREN_TOKEN; }

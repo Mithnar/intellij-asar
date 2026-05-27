@@ -6,6 +6,7 @@ import de.mithnar.plugin.asarasm.AsarLexerAdapter
 import de.mithnar.plugin.asarasm.psi.AsarTypes
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -38,7 +39,7 @@ class AsarLexerTest {
         assertTokens("LDA $00", "OPCODE_TOKEN ('LDA')\nWHITE_SPACE (' ')\nNUMBER_HEX_TOKEN ('$00')")
     }
 
-    @ParameterizedTest(name = "Opcode Smoke Test: {0}")
+    @ParameterizedTest(name = "Lexer Coverage: {0}")
     @MethodSource("allOpcodes")
     fun testNoGaps(input: String) {
         val lexer = createLexer()
@@ -47,6 +48,7 @@ class AsarLexerTest {
         while (lexer.tokenType != null) {
             assertEquals(pos, lexer.tokenStart, "Gap before token '${lexer.tokenText}' at position $pos in: $input")
             assertNotEquals(TokenType.BAD_CHARACTER, lexer.tokenType, "BAD_CHARACTER at position $pos: '${lexer.tokenText}' in: $input")
+            assertTrue(lexer.tokenEnd > lexer.tokenStart, "Zero-width token at position $pos in: $input")
             pos = lexer.tokenEnd
             lexer.advance()
         }
@@ -121,12 +123,92 @@ class AsarLexerTest {
     }
 
     @ParameterizedTest(name = "{0}")
+    @MethodSource("operatorData")
+    fun testOperators(name: String, input: String, expected: String) {
+        assertTokens(input, expected)
+    }
+
+    @ParameterizedTest(name = "{0}")
     @MethodSource("tokenSequenceData")
     fun testTokenSequences(name: String, input: String, expected: String) {
         assertTokens(input, expected)
     }
 
     companion object {
+        @JvmStatic
+        fun operatorData(): List<Array<Any>> = listOf(
+            // Single-character assignment
+            arrayOf("Plain Assign", "=", "ASSIGN_TOKEN ('=')"),
+
+            // Compound assignments — each MUST be a distinct token
+            arrayOf("Plus Assign", "+=", "PLUS_ASSIGN_TOKEN ('+=')"),
+            arrayOf("Colon Assign", ":=", "COLON_ASSIGN_TOKEN (':=')"),
+            arrayOf("Hash Assign", "#=", "HASH_ASSIGN_TOKEN ('#=')"),
+            arrayOf("Question Assign", "?=", "QUESTION_ASSIGN_TOKEN ('?=')"),
+
+            // Compound assignment used in a real constant definition
+            arrayOf("Constant Plain Assign", "!c = 1", "CONSTANT_TOKEN ('!c')\nWHITE_SPACE (' ')\nASSIGN_TOKEN ('=')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('1')"),
+            arrayOf("Constant Plus Assign", "!c += 1", "CONSTANT_TOKEN ('!c')\nWHITE_SPACE (' ')\nPLUS_ASSIGN_TOKEN ('+=')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('1')"),
+            arrayOf("Constant Colon Assign", "!c := 1", "CONSTANT_TOKEN ('!c')\nWHITE_SPACE (' ')\nCOLON_ASSIGN_TOKEN (':=')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('1')"),
+            arrayOf("Constant Hash Assign", "!c #= 1", "CONSTANT_TOKEN ('!c')\nWHITE_SPACE (' ')\nHASH_ASSIGN_TOKEN ('#=')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('1')"),
+            arrayOf("Constant Question Assign", "!c ?= 1", "CONSTANT_TOKEN ('!c')\nWHITE_SPACE (' ')\nQUESTION_ASSIGN_TOKEN ('?=')\nWHITE_SPACE (' ')\nNUMBER_DEC_TOKEN ('1')"),
+
+            // Longest-match disambiguation: compound vs single-char prefix
+            arrayOf("Plus vs Plus Assign", "+ +=", "PLUS_TOKEN ('+')\nWHITE_SPACE (' ')\nPLUS_ASSIGN_TOKEN ('+=')"),
+            arrayOf("Colon vs Colon Assign", ": :=", "COLON_TOKEN (':')\nWHITE_SPACE (' ')\nCOLON_ASSIGN_TOKEN (':=')"),
+            arrayOf("Hash vs Hash Assign", "# #=", "HASH_TOKEN ('#')\nWHITE_SPACE (' ')\nHASH_ASSIGN_TOKEN ('#=')"),
+
+            // Comparison operators
+            arrayOf("Equal", "==", "EQ_TOKEN ('==')"),
+            arrayOf("Not Equal", "!=", "NEQ_TOKEN ('!=')"),
+            arrayOf("Less Than", "<", "LT_TOKEN ('<')"),
+            arrayOf("Greater Than", ">", "GT_TOKEN ('>')"),
+            arrayOf("Less Than Equal", "<=", "LTE_TOKEN ('<=')"),
+            arrayOf("Greater Than Equal", ">=", "GTE_TOKEN ('>=')"),
+
+            // Comparison disambiguation
+            arrayOf("LT vs LTE", "< <=", "LT_TOKEN ('<')\nWHITE_SPACE (' ')\nLTE_TOKEN ('<=')"),
+            arrayOf("GT vs GTE", "> >=", "GT_TOKEN ('>')\nWHITE_SPACE (' ')\nGTE_TOKEN ('>=')"),
+            arrayOf("Assign vs Equal", "= ==", "ASSIGN_TOKEN ('=')\nWHITE_SPACE (' ')\nEQ_TOKEN ('==')"),
+
+            // Shift operators
+            arrayOf("Shift Left", "<<", "SHIFT_LEFT_TOKEN ('<<')"),
+            arrayOf("Shift Right", ">>", "SHIFT_RIGHT_TOKEN ('>>')"),
+            arrayOf("LT vs Shift Left", "< <<", "LT_TOKEN ('<')\nWHITE_SPACE (' ')\nSHIFT_LEFT_TOKEN ('<<')"),
+            arrayOf("GT vs Shift Right", "> >>", "GT_TOKEN ('>')\nWHITE_SPACE (' ')\nSHIFT_RIGHT_TOKEN ('>>')"),
+
+            // Logical operators
+            arrayOf("Logical And", "&&", "LOGICAL_AND_TOKEN ('&&')"),
+            arrayOf("Logical Or", "||", "LOGICAL_OR_TOKEN ('||')"),
+            arrayOf("Ampersand vs Logical And", "& &&", "AMPERSAND_TOKEN ('&')\nWHITE_SPACE (' ')\nLOGICAL_AND_TOKEN ('&&')"),
+            arrayOf("Pipe vs Logical Or", "| ||", "PIPE_TOKEN ('|')\nWHITE_SPACE (' ')\nLOGICAL_OR_TOKEN ('||')"),
+
+            // Arithmetic & bitwise single-char
+            arrayOf("Plus", "+", "PLUS_TOKEN ('+')"),
+            arrayOf("Minus", "-", "MINUS_TOKEN ('-')"),
+            arrayOf("Star", "*", "STAR_TOKEN ('*')"),
+            arrayOf("Slash", "/", "SLASH_TOKEN ('/')"),
+            arrayOf("Percent", "%", "PERCENT_TOKEN ('%')"),
+            arrayOf("Ampersand", "&", "AMPERSAND_TOKEN ('&')"),
+            arrayOf("Pipe", "|", "PIPE_TOKEN ('|')"),
+            arrayOf("Caret", "^", "CARET_TOKEN ('^')"),
+            arrayOf("Tilde", "~", "TILDE_TOKEN ('~')"),
+
+            // Brackets & punctuation
+            arrayOf("LParen", "(", "LPAREN_TOKEN ('(')"),
+            arrayOf("RParen", ")", "RPAREN_TOKEN (')')"),
+            arrayOf("LBracket", "[", "LBRACKET_TOKEN ('[')"),
+            arrayOf("RBracket", "]", "RBRACKET_TOKEN (']')"),
+            arrayOf("Colon", ":", "COLON_TOKEN (':')"),
+            arrayOf("Comma", ",", "COMMA_TOKEN (',')"),
+            arrayOf("Hash", "#", "HASH_TOKEN ('#')"),
+
+            // Combined / packed operator sequences (no whitespace)
+            arrayOf("Packed Compare Sequence", "a==b!=c", "IDENTIFIER_TOKEN ('a')\nEQ_TOKEN ('==')\nIDENTIFIER_TOKEN ('b')\nNEQ_TOKEN ('!=')\nIDENTIFIER_TOKEN ('c')"),
+            arrayOf("Packed Shift Expression", "1<<2>>3", "NUMBER_DEC_TOKEN ('1')\nSHIFT_LEFT_TOKEN ('<<')\nNUMBER_DEC_TOKEN ('2')\nSHIFT_RIGHT_TOKEN ('>>')\nNUMBER_DEC_TOKEN ('3')"),
+            arrayOf("Packed Logical Expression", "1&&2||3", "NUMBER_DEC_TOKEN ('1')\nLOGICAL_AND_TOKEN ('&&')\nNUMBER_DEC_TOKEN ('2')\nLOGICAL_OR_TOKEN ('||')\nNUMBER_DEC_TOKEN ('3')")
+        )
+
         @JvmStatic
         fun tokenSequenceData(): List<Array<Any>> = listOf(
             // Basic
