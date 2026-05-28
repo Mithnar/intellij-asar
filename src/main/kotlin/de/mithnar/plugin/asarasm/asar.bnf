@@ -39,10 +39,13 @@ item ::= labelDefinition
 labelDefinition ::= LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"
 }
-globalLabelDefinition ::= <<kw_global>> HASH_TOKEN? (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN) {
+globalLabelDefinition ::= globalLabelPrefix (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN) {
     pin=1
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarGlobalLabelDefinitionMixin"
 }
+private globalLabelPrefix ::= <<kw_global>> HASH_TOKEN?
+                            | HASH_TOKEN
+
 localLabelDefinition ::= LOCAL_LABEL_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelDefinitionMixin"
 }
