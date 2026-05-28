@@ -5,16 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.5.0] - 2026-05-28
 ### Added
 - New directive: `struct`
 - New directive: `pushns`
 - New directive: `pullns`
-- New Operators: `+=`, `:=`, `?=`
+- New operators: `+=`, `:=`, `?=`
 - Global labels
 - Namespaced labels
 
 ### Changed
 - Parser improvements for the handling of labels with namespaces
+
+### Fixed
+- Fixed an issue with unquoted file paths
 
 ## [0.4.0] - 2026-04-20
 ### Added
@@ -71,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Labels: Jump to named Label
 - Labels: Show-Usage of named Label
 
-[Unreleased]: https://github.com/Mithnar/intellij-asar/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Mithnar/intellij-asar/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/Mithnar/intellij-asar/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Mithnar/intellij-asar/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Mithnar/intellij-asar/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Mithnar/intellij-asar/compare/v0.1...v0.2.0

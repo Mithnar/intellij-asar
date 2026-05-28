@@ -29,6 +29,21 @@ For the detailed release history, head over to the [Changelog](https://github.co
 
 
 ## Recent Releases:
+### [0.5.0] - 2026-05-28
+#### Added
+- New directive: `struct`
+- New directive: `pushns`
+- New directive: `pullns`
+- New operators: `+=`, `:=`, `?=`
+- Global labels
+- Namespaced labels
+
+#### Changed
+- Parser improvements for the handling of labels with namespaces
+
+#### Fixed
+- Fixed an issue with unquoted file paths
+
 ### [0.4.0] - 2026-04-20
 #### Added
 - New directive: `base`
@@ -48,21 +63,6 @@ For the detailed release history, head over to the [Changelog](https://github.co
 - `skip` directive now supports align and offset keywords
 - `sa1rom` directive now supports bank parameters
 
-### [0.3.0] - 2026-04-18
-#### Added
-- New directive: include
-- New directive: includeonce
-- New directive: includefrom
-- Go-To file for incsrc & includefrom
-- Support for multiline operators "," and "\"
-
-#### Changed
-- Parser improvements for better handling of labels and registers
-- Directives should now behave like opcodes and not show an error on an incomplete line
-
-#### Fixed
-- incsrc directive now supports files without quotes if it is not a path or contains whitespaces
-
 ## Meta
 Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/main/LICENSE) for more information.
 
@@ -80,5 +80,5 @@ Found a bug or missing syntax? [Open an issue](https://github.com/Mithnar/intell
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
+[0.5.0]: https://github.com/Mithnar/intellij-asar/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/Mithnar/intellij-asar/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/Mithnar/intellij-asar/compare/v0.2.0...v0.3.0
