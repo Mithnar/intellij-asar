@@ -2,18 +2,53 @@ package de.mithnar.plugin.asarasm.parser
 
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
+import com.intellij.psi.tree.IElementType
 import de.mithnar.plugin.asarasm.psi.AsarTypes
 
 class AsarParserUtil : GeneratedParserUtilBase() {
 
     companion object {
 
-        private fun matchKeyword(builder: PsiBuilder, keyword: String): Boolean {
-            if (builder.tokenType != AsarTypes.IDENTIFIER_TOKEN) return false
-            if (!builder.tokenText.equals(keyword, ignoreCase = true)) return false
+        @JvmStatic
+        fun consumeAnyToken(builder: PsiBuilder, level: Int): Boolean {
+            if (builder.eof()) return false
             builder.advanceLexer()
             return true
         }
+
+        /**
+         * Predicate: returns true if the next token could plausibly start an `item`.
+         * Used as a guard on `line` so the parser doesn't commit to `line` and trigger
+         * its recovery machinery when the next token is something no `item` alternative
+         * accepts (e.g. a stray `?` lexed as BAD_CHARACTER, or any orphan punctuation).
+         */
+        @JvmStatic
+        fun itemStart(builder: PsiBuilder, level: Int): Boolean {
+            val type = builder.tokenType ?: return false
+            return type in ITEM_START_TOKENS
+        }
+
+        private val ITEM_START_TOKENS: Set<IElementType> = setOf(
+            AsarTypes.LABEL_TOKEN,
+            AsarTypes.LOCAL_LABEL_TOKEN,
+            AsarTypes.MACRO_LABEL_TOKEN,
+            AsarTypes.MACRO_LOCAL_LABEL_TOKEN,
+            AsarTypes.MACRO_IDENTIFIER_TOKEN,
+            AsarTypes.MACRO_PLUS_LABEL_TOKEN,
+            AsarTypes.MACRO_MINUS_LABEL_TOKEN,
+            AsarTypes.IDENTIFIER_TOKEN,
+            AsarTypes.CONSTANT_TOKEN,
+            AsarTypes.OPCODE_TOKEN,
+            AsarTypes.IMPLIED_OPCODE_TOKEN,
+            AsarTypes.BRANCH_OPCODE_TOKEN,
+            AsarTypes.JUMP_OPCODE_TOKEN,
+            AsarTypes.BLOCK_MOVE_OPCODE_TOKEN,
+            AsarTypes.PLUS_TOKEN,
+            AsarTypes.MINUS_TOKEN,
+            AsarTypes.HASH_TOKEN,
+            AsarTypes.PERCENT_TOKEN,
+            AsarTypes.COMMENT_TOKEN,
+        )
 
         // Seperate functions, because String keyword in parser generator generates the value as symbol, not as string.
         // Boilerplate-y workaround for now until I have a better solution
@@ -266,5 +301,12 @@ class AsarParserUtil : GeneratedParserUtilBase() {
 
         @JvmStatic
         fun kw_endstruct(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "endstruct")
+
+        private fun matchKeyword(builder: PsiBuilder, keyword: String): Boolean {
+            if (builder.tokenType != AsarTypes.IDENTIFIER_TOKEN) return false
+            if (!builder.tokenText.equals(keyword, ignoreCase = true)) return false
+            builder.advanceLexer()
+            return true
+        }
     }
 }

@@ -4,11 +4,9 @@ Asar File
       AsarGenericInstructionImpl(GENERIC_INSTRUCTION)
         PsiElement(OPCODE_TOKEN)('LDA')
     PsiWhiteSpace(' ')
-    AsarItemImpl(ITEM)
-      AsarGlobalLabelDefinitionImpl(GLOBAL_LABEL_DEFINITION)
-        PsiElement(HASH_TOKEN)('#')
-        PsiErrorElement:<prefix operator>, <primary expression>, IDENTIFIER_TOKEN or LABEL_TOKEN expected
-          <empty list>
+    PsiElement(HASH_TOKEN)('#')
+    PsiErrorElement:<prefix operator>, <primary expression>, IDENTIFIER_TOKEN, LABEL_TOKEN, MACRO_LABEL_TOKEN or MACRO_LOCAL_LABEL_TOKEN expected
+      <empty list>
   PsiElement(NEWLINE_TOKEN)('\n')
   AsarLineImpl(LINE)
     AsarItemImpl(ITEM)

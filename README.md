@@ -1,6 +1,6 @@
 # Asar ASM Plugin for IntelliJ IDEA
 
-n IntelliJ IDEA plugin for [Asar](https://github.com/RPGHacker/asar) the assembler used in Super Mario World hacking.
+An IntelliJ IDEA plugin for [Asar](https://github.com/RPGHacker/asar) the assembler used in Super Mario World hacking.
 
 This plugin is WIP, highlighting and syntax checking should work for common asar, but some asar features might not work (yet).
 

@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Macro Labels
+
 ### Fixed
 - Corrected an issue with +/- labels not allowing a `:` in the definition.
+- Improved error handling, so incorrect syntax doesn't break the parsing
 
 ## [0.5.0] - 2026-05-28
 ### Added

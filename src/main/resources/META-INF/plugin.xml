@@ -47,6 +47,7 @@
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarAddressingModeAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarRegisterAnnotator"/>
         <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarSa1RomAnnotator"/>
+        <annotator language="AsarAsm" implementationClass="de.mithnar.plugin.asarasm.annotator.AsarUnknownTokenAnnotator"/>
         <lang.findUsagesProvider language="AsarAsm"
                                  implementationClass="de.mithnar.plugin.asarasm.usage.AsarFindUsagesProvider"/>
     </extensions>

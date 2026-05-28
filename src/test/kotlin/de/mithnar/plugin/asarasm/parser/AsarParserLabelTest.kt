@@ -25,4 +25,32 @@ class AsarParserLabelTest : ParsingTestCase("input/label", "asm", AsarParserDefi
     fun testLocalLabels() {
         doTest(true)
     }
+
+    fun testMacroLabels() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_HashPrefixed() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_Assignment() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_AnonymousDepth() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_BranchAndJump() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_InArithmetic() {
+        doTest(true)
+    }
+
+    fun testMacroLabels_Negative_WhitespaceAfterQuestion() {
+        doTest(true)
+    }
 }

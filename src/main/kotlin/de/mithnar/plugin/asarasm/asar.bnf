@@ -13,16 +13,24 @@
 
 // Top-level structure
 
-root ::= (NEWLINE_TOKEN | line)*
+root ::= (NEWLINE_TOKEN | line | unknownToken)*
 
-line ::= item (COLON_TOKEN? item)* {pin=1 recoverWhile=line_recover}
+line ::= <<itemStart>> lineBody
+
+private lineBody ::= item (COLON_TOKEN? item)* {pin=1 recoverWhile=line_recover}
 
 private line_recover ::= !NEWLINE_TOKEN
+
+unknownToken ::= <<consumeAnyToken>>
 
 item ::= labelDefinition
        | globalLabelDefinition
        | localLabelDefinition
        | anonymousLabelDefinition
+       | macroLabelDefinition
+       | macroLocalLabelDefinition
+       | macroAnonymousLabelDefinition
+       | macroLabelAssignment
        | structDefinition
        | constantDefinition
        | impliedInstruction
@@ -40,7 +48,7 @@ labelDefinition ::= LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"
 }
 globalLabelDefinition ::= globalLabelPrefix (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN) {
-    pin=1
+    pin=2
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarGlobalLabelDefinitionMixin"
 }
 private globalLabelPrefix ::= <<kw_global>> HASH_TOKEN?
@@ -60,6 +68,19 @@ anonymousLabelReference ::= plusLabel | minusLabel  {
 }
 plusLabel       ::= PLUS_TOKEN+
 minusLabel     ::= MINUS_TOKEN+
+
+// Macro labels (definitions)
+
+macroLabelDefinition          ::= HASH_TOKEN? MACRO_LABEL_TOKEN
+macroLocalLabelDefinition     ::= HASH_TOKEN? MACRO_LOCAL_LABEL_TOKEN
+macroAnonymousLabelDefinition ::= MACRO_PLUS_LABEL_TOKEN | MACRO_MINUS_LABEL_TOKEN
+macroLabelAssignment          ::= MACRO_IDENTIFIER_TOKEN ASSIGN_TOKEN expression {pin=2}
+
+// Macro labels (references)
+
+macroLabelReference          ::= MACRO_IDENTIFIER_TOKEN
+macroLocalLabelReference     ::= MACRO_LOCAL_LABEL_TOKEN
+macroAnonymousLabelReference ::= MACRO_PLUS_LABEL_TOKEN | MACRO_MINUS_LABEL_TOKEN
 
 structDefinition    ::= structStart structFields structEnd {pin=1}
 structStart         ::= <<kw_struct>> IDENTIFIER_TOKEN snesAddress NEWLINE_TOKEN
@@ -90,19 +111,25 @@ repeatCount ::= HASH_TOKEN expression
 
 branchTarget ::= symbolReferenceTarget
                | anonymousLabelReference
+               | macroAnonymousLabelReference
                | expressionTarget
 
 jumpTarget ::= indexedIndirectMode
              | indirectIndexedOrIndirectMode
              | longIndirectIndexedMode
              | symbolReferenceTarget
+             | macroAnonymousLabelReference
              | expressionTarget
 
 labelReference    ::= IDENTIFIER_TOKEN LBRACKET_TOKEN number RBRACKET_TOKEN LOCAL_LABEL_TOKEN
                     | IDENTIFIER_TOKEN LOCAL_LABEL_TOKEN
                     | IDENTIFIER_TOKEN {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelReferenceMixin"}
 
-symbolReferenceTarget ::= labelReference | localLabelReference | constantReference
+symbolReferenceTarget ::= labelReference
+                       | localLabelReference
+                       | constantReference
+                       | macroLabelReference
+                       | macroLocalLabelReference
 private expressionTarget ::= expression
 
 // Directives
@@ -379,6 +406,9 @@ primaryExpression ::= number
                     | STRING_TOKEN
                     | MACRO_PARAM_TOKEN
                     | localLabelReference
+                    | macroLocalLabelReference
+                    | macroLabelReference
+                    | macroAnonymousLabelReference
                     | functionCall
                     | pcExpression
                     | labelReference

@@ -45,6 +45,13 @@ LOCAL_LABEL             = "."+{IDENTIFIER_PART}+":"?
 CONSTANT                = "!"{IDENTIFIER_PART}+
 IDENTIFIER              = {IDENTIFIER_START}{IDENTIFIER_PART}*
 NAMESPACED_IDENTIFIER   = {IDENTIFIER}("."{IDENTIFIER_PART}+)+
+
+MACRO_LABEL             = "?"{IDENTIFIER_START}{IDENTIFIER_PART}*":"
+MACRO_IDENTIFIER        = "?"{IDENTIFIER_START}{IDENTIFIER_PART}*
+MACRO_LOCAL_LABEL       = "?""."+{IDENTIFIER_PART}+":"?
+MACRO_PLUS_LABEL        = "?""+"+
+MACRO_MINUS_LABEL       = "?""-"+
+
 NUMBER_HEX              = \$[0-9A-Fa-f]+
 NUMBER_DEC              = [0-9]+
 NUMBER_BIN              = %[01]+
@@ -137,9 +144,15 @@ JUMP_OPCODE = ("jsr"|"jsl"|"jml"|"jmp") {WIDTH_SUFFIX}?
 
 {LABEL}                                { return AsarTypes.LABEL_TOKEN; }
 {LOCAL_LABEL}                          { return AsarTypes.LOCAL_LABEL_TOKEN; }
+{MACRO_LABEL}                          { return AsarTypes.MACRO_LABEL_TOKEN; }
+{MACRO_LOCAL_LABEL}                    { return AsarTypes.MACRO_LOCAL_LABEL_TOKEN; }
+{MACRO_PLUS_LABEL}                     { return AsarTypes.MACRO_PLUS_LABEL_TOKEN; }
+{MACRO_MINUS_LABEL}                    { return AsarTypes.MACRO_MINUS_LABEL_TOKEN; }
+{MACRO_IDENTIFIER}                     { return AsarTypes.MACRO_IDENTIFIER_TOKEN; }
 {CONSTANT}                             { return AsarTypes.CONSTANT_TOKEN; }
 {MACRO_PARAM}                          { return AsarTypes.MACRO_PARAM_TOKEN; }
 {NAMESPACED_IDENTIFIER}                { return AsarTypes.IDENTIFIER_TOKEN; }
+
 
 // Opcodes
 
