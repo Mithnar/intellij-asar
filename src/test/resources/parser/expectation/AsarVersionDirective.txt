@@ -20,7 +20,7 @@ Asar File
       AsarDirectiveImpl(DIRECTIVE)
         AsarAsarDirectiveImpl(ASAR_DIRECTIVE)
           PsiElement(IDENTIFIER_TOKEN)('asar')
-          PsiErrorElement:ASAR_VERSION_TOKEN or COLON_TOKEN expected, got '2'
+          PsiErrorElement:ASAR_VERSION_TOKEN, ASSIGN_TOKEN or COLON_TOKEN expected, got '2'
             <empty list>
     PsiWhiteSpace(' ')
     PsiElement(NUMBER_DEC_TOKEN)('2')
@@ -32,7 +32,7 @@ Asar File
       AsarDirectiveImpl(DIRECTIVE)
         AsarAsarDirectiveImpl(ASAR_DIRECTIVE)
           PsiElement(IDENTIFIER_TOKEN)('asar')
-          PsiErrorElement:ASAR_VERSION_TOKEN or COLON_TOKEN expected, got '1'
+          PsiErrorElement:ASAR_VERSION_TOKEN, ASSIGN_TOKEN or COLON_TOKEN expected, got '1'
             <empty list>
     PsiWhiteSpace(' ')
     PsiElement(NUMBER_DEC_TOKEN)('1')

@@ -5,7 +5,7 @@ Asar File
         PsiElement(OPCODE_TOKEN)('LDA')
     PsiWhiteSpace(' ')
     PsiElement(HASH_TOKEN)('#')
-    PsiErrorElement:<prefix operator>, <primary expression>, IDENTIFIER_TOKEN, LABEL_TOKEN, MACRO_LABEL_TOKEN or MACRO_LOCAL_LABEL_TOKEN expected
+    PsiErrorElement:<prefix operator>, <primary expression>, IDENTIFIER_TOKEN, LABEL_TOKEN, LOCAL_LABEL_TOKEN, MACRO_LABEL_TOKEN or MACRO_LOCAL_LABEL_TOKEN expected
       <empty list>
   PsiElement(NEWLINE_TOKEN)('\n')
   AsarLineImpl(LINE)

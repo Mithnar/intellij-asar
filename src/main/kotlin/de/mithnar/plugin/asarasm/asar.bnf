@@ -23,7 +23,8 @@ private line_recover ::= !NEWLINE_TOKEN
 
 unknownToken ::= <<consumeAnyToken>>
 
-item ::= labelDefinition
+item ::= labelAssignment
+       | labelDefinition
        | globalLabelDefinition
        | localLabelDefinition
        | anonymousLabelDefinition
@@ -47,7 +48,12 @@ item ::= labelDefinition
 labelDefinition ::= LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelDefinitionMixin"
 }
-globalLabelDefinition ::= globalLabelPrefix (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN) {
+
+labelAssignment ::= IDENTIFIER_TOKEN ASSIGN_TOKEN expression  {
+    pin=2
+}
+
+globalLabelDefinition ::= globalLabelPrefix (LABEL_TOKEN | IDENTIFIER_TOKEN COLON_TOKEN | LOCAL_LABEL_TOKEN) {
     pin=2
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarGlobalLabelDefinitionMixin"
 }
@@ -294,7 +300,8 @@ fillDirective     ::= <<kw_fill>> expression {pin=1}
 
 // Architecture & math mode
 
-archDirective  ::= <<kw_arch>> IDENTIFIER_TOKEN {pin=1}
+archDirective  ::= <<kw_arch>> archName {pin=1}
+private archName ::= IDENTIFIER_TOKEN | NUMBER_DEC_TOKEN
 mathDirective  ::= <<kw_math>> IDENTIFIER_TOKEN IDENTIFIER_TOKEN {pin=1}
 checkDirective ::= <<kw_check>> IDENTIFIER_TOKEN expression {pin=1}
 

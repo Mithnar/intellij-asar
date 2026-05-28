@@ -14,7 +14,15 @@ class AsarParserLabelTest : ParsingTestCase("input/label", "asm", AsarParserDefi
         doTest(true)
     }
 
-    fun testMainLabel() {
+    fun testMainLabels() {
+        doTest(true)
+    }
+
+    fun testMainLabels_Assignment() {
+        doTest(true)
+    }
+
+    fun testMainLabels_Basic() {
         doTest(true)
     }
 
@@ -22,7 +30,23 @@ class AsarParserLabelTest : ParsingTestCase("input/label", "asm", AsarParserDefi
         doTest(true)
     }
 
+    fun testSubLabels_Nested() {
+        doTest(true)
+    }
+
     fun testLocalLabels() {
+        doTest(true)
+    }
+
+    fun testLocalLabels_Chains() {
+        doTest(true)
+    }
+
+    fun testLabels_HashPrefix() {
+        doTest(true)
+    }
+
+    fun testLabels_Mixed_EdgeCases() {
         doTest(true)
     }
 

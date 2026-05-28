@@ -15,10 +15,8 @@ Asar File
       AsarDirectiveImpl(DIRECTIVE)
         AsarArchDirectiveImpl(ARCH_DIRECTIVE)
           PsiElement(IDENTIFIER_TOKEN)('arch')
-          PsiErrorElement:COLON_TOKEN or IDENTIFIER_TOKEN expected, got '65816'
-            <empty list>
-    PsiWhiteSpace(' ')
-    PsiElement(NUMBER_DEC_TOKEN)('65816')
+          PsiWhiteSpace(' ')
+          PsiElement(NUMBER_DEC_TOKEN)('65816')
   PsiElement(NEWLINE_TOKEN)('\n')
   AsarLineImpl(LINE)
     AsarItemImpl(ITEM)
