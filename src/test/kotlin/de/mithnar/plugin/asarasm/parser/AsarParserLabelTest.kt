@@ -21,4 +21,8 @@ class AsarParserLabelTest : ParsingTestCase("input/label", "asm", AsarParserDefi
     fun testSubLabels() {
         doTest(true)
     }
+
+    fun testLocalLabels() {
+        doTest(true)
+    }
 }

@@ -52,7 +52,7 @@ localLabelDefinition ::= LOCAL_LABEL_TOKEN  {
 localLabelReference  ::= LOCAL_LABEL_TOKEN  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLocalLabelReferenceMixin"
 }
-anonymousLabelDefinition ::= plusLabel | minusLabel  {
+anonymousLabelDefinition ::= (plusLabel | minusLabel) COLON_TOKEN?  {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarAnonymousLabelDefinitionMixin"
 }
 anonymousLabelReference ::= plusLabel | minusLabel  {
