@@ -203,30 +203,31 @@ dataDirective   ::= <<kw_db>> dataArgumentList
                   | <<kw_dw>> dataArgumentList
                   | <<kw_dl>> dataArgumentList
                   | <<kw_dd>> dataArgumentList {pin(".*")=1}
+private dataArgumentList  ::= expression (COMMA_TOKEN expression)*
 
 
 assertDirective ::= <<kw_assert>> expression (COMMA_TOKEN expression)* (COMMA_TOKEN STRING_TOKEN)? {pin=1}
 
-incbinDirective ::= <<kw_incbin>> STRING_TOKEN incbinRange? {pin=1}
+incbinDirective ::= <<kw_incbin>> filePath incbinRange? {pin=1}
+private incbinRange ::= COLON_TOKEN expression COLON_TOKEN expression
 
-incsrcDirective ::= <<kw_incsrc>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
+incsrcDirective ::= <<kw_incsrc>> filePath {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
     pin=1
 }
-includefromDirective ::= <<kw_includefrom>> (STRING_TOKEN | IDENTIFIER_TOKEN) {
+includefromDirective ::= <<kw_includefrom>> filePath {
     mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarIncludeDirectiveMixin"
     pin=1
 }
+filePath ::= STRING_TOKEN | unquotedPath
+private unquotedPath ::= pathSegment (SLASH_TOKEN pathSegment)*
+private pathSegment ::= IDENTIFIER_TOKEN | DOT_TOKEN+ IDENTIFIER_TOKEN?
+
 includeDirective ::= <<kw_include>> | <<kw_includeonce>>
-
 
 printDirective  ::= <<kw_print>> printArgumentList?
                   | <<kw_error>> printArgumentList? {pin(".*")=1}
-
-private incbinRange ::= COLON_TOKEN expression COLON_TOKEN expression
-private dataArgumentList  ::= expression (COMMA_TOKEN expression)*
 private printArgumentList ::= printArgument (COMMA_TOKEN printArgument)*
-
 printArgument     ::= STRING_TOKEN | expression
 
 // header
