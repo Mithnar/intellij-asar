@@ -47,14 +47,6 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testLabelThenDirective() {
-        doTest(true)
-    }
-
-    fun testLabelThenInstruction() {
-        doTest(true)
-    }
-
     fun testPrintDirectiveWithPc() {
         doTest(true)
     }
@@ -63,9 +55,6 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testLabelDefinitionAndLabelJump() {
-        doTest(true)
-    }
 
     fun testBranchToLocalLabel() {
         doTest(true)
@@ -147,10 +136,6 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
         doTest(true)
     }
 
-    fun testLabelAndConstantReferencesNotShadowed() {
-        doTest(true)
-    }
-
     fun testIncludeDirectives() {
         doTest(true)
     }
@@ -164,10 +149,6 @@ class AsarParserTest : ParsingTestCase("input", "asm", AsarParserDefinition()) {
     }
 
     fun testMappingModesDirectives() {
-        doTest(true)
-    }
-
-    fun testStructDefinitionAndReference() {
         doTest(true)
     }
 }

@@ -29,6 +29,16 @@ For the detailed release history, head over to the [Changelog](https://github.co
 
 
 ## Recent Releases:
+### [0.6.0] - 2026-05-30
+#### Added
+- Macro labels
+- Label assignments
+- Struct extensions
+
+#### Fixed
+- Corrected an issue with +/- labels not allowing a `:` in the definition.
+- Improved error handling, so incorrect syntax doesn't break the parsing
+
 ### [0.5.0] - 2026-05-28
 #### Added
 - New directive: `struct`
@@ -43,25 +53,6 @@ For the detailed release history, head over to the [Changelog](https://github.co
 
 #### Fixed
 - Fixed an issue with unquoted file paths
-
-### [0.4.0] - 2026-04-20
-#### Added
-- New directive: `base`
-- New directive: `bank`
-- New directive: `dpbase`
-- New directive: `optimize {dp/address}`
-- New directive: `pushbase`
-- New directive: `pullbase`
-- New directive: `fullsa1rom`
-- New directive: `sfxrom`
-
-#### Changed
-- Improved lexing: Split `NUMBER_TOKEN` into `NUMBER_HEX_TOKEN`, `NUMBER_DEC_TOKEN` and `NUMBER_BIN_TOKEN`
-- Create Deprecation & Quickfix for `warnpc`
-
-#### Fixed
-- `skip` directive now supports align and offset keywords
-- `sa1rom` directive now supports bank parameters
 
 ## Meta
 Distributed under the GPL-3.0 license. See [LICENSE](https://github.com/Mithnar/intellij-asar/blob/main/LICENSE) for more information.
@@ -80,5 +71,5 @@ Found a bug or missing syntax? [Open an issue](https://github.com/Mithnar/intell
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
+[0.6.0]: https://github.com/Mithnar/intellij-asar/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/Mithnar/intellij-asar/compare/v0.4.0...v0.5.0
-[0.4.0]: https://github.com/Mithnar/intellij-asar/compare/v0.3.0...v0.4.0

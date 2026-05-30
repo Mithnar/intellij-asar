@@ -1,5 +1,5 @@
 Asar File
-  PsiComment(COMMENT_TOKEN)('; Realistic SNES code surrounding struct definitions.')
+  PsiComment(COMMENT_TOKEN)('; Code surrounding struct definitions.')
   PsiElement(NEWLINE_TOKEN)('\n')
   PsiElement(NEWLINE_TOKEN)('\n')
   AsarLineImpl(LINE)
