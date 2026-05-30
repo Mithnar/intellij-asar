@@ -89,7 +89,7 @@ macroLocalLabelReference     ::= MACRO_LOCAL_LABEL_TOKEN
 macroAnonymousLabelReference ::= MACRO_PLUS_LABEL_TOKEN | MACRO_MINUS_LABEL_TOKEN
 
 structDefinition    ::= structStart structFields structEnd {pin=1}
-structStart         ::= <<kw_struct>> IDENTIFIER_TOKEN snesAddress NEWLINE_TOKEN
+structStart         ::= <<kw_struct>> IDENTIFIER_TOKEN (<<kw_extends>> IDENTIFIER_TOKEN | snesAddress) NEWLINE_TOKEN
 structFields        ::= (localLabelDefinition <<kw_skip>> numBytes NEWLINE_TOKEN)*
 structEnd           ::= <<kw_endstruct>> (<<kw_align>> numBytes)?
 
@@ -127,7 +127,8 @@ jumpTarget ::= indexedIndirectMode
              | macroAnonymousLabelReference
              | expressionTarget
 
-labelReference    ::= IDENTIFIER_TOKEN LBRACKET_TOKEN number RBRACKET_TOKEN LOCAL_LABEL_TOKEN
+labelReference    ::= IDENTIFIER_TOKEN LBRACKET_TOKEN number RBRACKET_TOKEN LOCAL_LABEL_TOKEN LOCAL_LABEL_TOKEN
+                    | IDENTIFIER_TOKEN LBRACKET_TOKEN number RBRACKET_TOKEN LOCAL_LABEL_TOKEN
                     | IDENTIFIER_TOKEN LOCAL_LABEL_TOKEN
                     | IDENTIFIER_TOKEN {mixin="de.mithnar.plugin.asarasm.psi.mixin.AsarLabelReferenceMixin"}
 

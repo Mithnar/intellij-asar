@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Macro Labels
+- Macro labels
+- Label assignments
+- Struct extensions
 
 ### Fixed
 - Corrected an issue with +/- labels not allowing a `:` in the definition.

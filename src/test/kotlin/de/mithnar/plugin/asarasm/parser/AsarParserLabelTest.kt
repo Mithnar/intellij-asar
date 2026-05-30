@@ -77,4 +77,24 @@ class AsarParserLabelTest : ParsingTestCase("input/label", "asm", AsarParserDefi
     fun testMacroLabels_Negative_WhitespaceAfterQuestion() {
         doTest(true)
     }
+
+    fun testStructExtends() {
+        doTest(true)
+    }
+
+    fun testStructAlignment() {
+        doTest(true)
+    }
+
+    fun testStructInExpressions() {
+        doTest(true)
+    }
+
+    fun testStructWithSurroundingCode() {
+        doTest(true)
+    }
+
+    fun testStructEmpty() {
+        doTest(true)
+    }
 }

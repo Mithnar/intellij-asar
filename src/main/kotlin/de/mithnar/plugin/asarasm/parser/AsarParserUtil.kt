@@ -300,6 +300,9 @@ class AsarParserUtil : GeneratedParserUtilBase() {
         fun kw_struct(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "struct")
 
         @JvmStatic
+        fun kw_extends(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "extends")
+
+        @JvmStatic
         fun kw_endstruct(builder: PsiBuilder, level: Int): Boolean = matchKeyword(builder, "endstruct")
 
         private fun matchKeyword(builder: PsiBuilder, keyword: String): Boolean {
